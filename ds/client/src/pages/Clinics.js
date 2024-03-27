@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState }  from 'react'
 import NavBar from '../comps/NavBar'
 import Footer from '../comps/Footer'
 import cli1 from '../img/clinics1.png'
@@ -7,13 +7,26 @@ import cli2 from '../img/clinics2.png'
 import cli3 from '../img/clinics3.png'
 
 
+
 function Clinics() {
+
+    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
+    const handleBookingClick = () => {
+        setIsBookingModalOpen(true);
+    };
+
+    const handleModalCloseClick = () => {
+        setIsBookingModalOpen(false);
+    };
+
+
   return (
     <div className='bg-navbg rounded-xl'>
         <NavBar />
         <div className="">
             
-            <form className="w-11/12 rounded-2xl flex items-center mx-auto h-48 bg-white">
+            <form className="w-11/12 rounded-2xl flex items-center mx-auto h-36 bg-white">
                 <div className="flex p-10 w-full justify-between ">
                     <div className="">
                         <h1 className='text-6xl text-blue-600 font-semibold mr-10% '>Clinics</h1>
@@ -99,11 +112,26 @@ function Clinics() {
                         <div className="w-12 h-12 flex justify-center items-center border border-blue-600 rounded-xl">
                             <img src={heart} alt="" />
                         </div> 
-                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 rounded-lg px-7 w-full'>Book</button>
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 rounded-lg px-7 w-full' onClick={handleBookingClick}>Book</button>
+        
                     </div>
+                    
                 </div>
+                
             </div>
-            
+            {isBookingModalOpen && (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div className="bg-white p-8 rounded-lg">
+            <button onClick={handleModalCloseClick}>Close</button>
+            <h2 id="modalTitle">Book an Appointment</h2>
+            <form id="bookingForm">
+                <label id="fnameLabel" htmlFor="fname">First Name:</label>
+                <input type="text" id="fname" name="fname" required aria-describedby="fnameLabel" />
+                {/* Rest of the form inputs */}
+            </form> 
+        </div>
+    </div>
+)}
             <div className="flex w-full  gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                 <div className="w-heroimg">
                     <img src={cli2} alt="" />

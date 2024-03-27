@@ -1,8 +1,43 @@
 import React from 'react'
 import NavBar from '../comps/NavBar'
-import Footer from '../comps/Footer'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { login } from '../redux/actions/authAction';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; 
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 function Login() {
+  const initialState = { email: '', password: '' };
+  const [userData, setUserData] = useState(initialState);
+  const { email, password } = userData;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { auth } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    if (auth?.token) {
+      navigate('/');
+    }
+  }, [auth, navigate]);
+
+  const handleChangeInput = e => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const action = await dispatch(login(userData));
+      navigate('/');
+    } catch (error) {
+      console.log("Error logging in:", error);
+    }
+  };
+
   return (
     <div>
         <NavBar />
@@ -50,16 +85,31 @@ function Login() {
                                     Or start with e-mail
                                 </div>
                             </div>
+                          <form action="#" onSubmit={handleSubmit}>
 
                             <div className="mx-auto w-3/5">
-                                <input
-                                    className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                    type="email" placeholder="Email" />
-                                <input
-                                    className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                    type="password" placeholder="Password" />
+                            <input 
+                                type="email" 
+                                name="email" 
+                                id="email" 
+                                className=" text-bigtext sm:text-sm rounded-lg block w-full p-2.5 placeholder-gray-500 border-2 border-gray-300 mb-4" 
+                                placeholder="EMAIL" 
+                                required="" 
+                                onChange={handleChangeInput} 
+                                value={email} 
+                                aria-label="Email Address"
+                              />
+                    <input 
+                      type="password" 
+                      name="password" 
+                      id="password" 
+                      placeholder="PASSWORD" 
+                      className="text-bigtext sm:text-sm rounded-lg block w-full p-2.5 placeholder-gray-500 border-2 border-gray-300" 
+                      required="" 
+                      onChange={handleChangeInput} 
+                      value={password} />
                                 <button
-                                    className="mt-5 tracking-wide font-semibold bg-blue-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                                    className="mt-5 tracking-wide font-semibold bg-blue-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none" type='submit'>
                                     <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2"
                                         strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
@@ -79,8 +129,10 @@ function Login() {
                                         Privacy Policy
                                     </a>
                                 </p>
-                                <p className='text-center mt-6'>Not a member yet? Create an account</p>
+                                <p className='text-center mt-6'>Not a member yet? <Link to="/Register">Create an account</Link></p>
                             </div>
+                          </form>
+
                         </div>
                     </div>
                 </div>

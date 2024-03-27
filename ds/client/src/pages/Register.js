@@ -1,8 +1,77 @@
-import React from 'react'
 import NavBar from '../comps/NavBar'
-import Footer from '../comps/Footer'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { register } from '../redux/actions/authAction';
+import { useDispatch } from 'react-redux';
+
+
+
 
 function Register() {
+
+    const [message, setMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        confirmPass: ''
+      });
+
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+
+      const handleSubmit = async (e) => {
+
+      e.preventDefault();
+      const { username, email, password, confirmPass } = formData;
+      if(password !== confirmPass){
+        alert("Passwords don't match!");
+        return;
+      }
+    
+      const newUser = {
+        fullname: username,
+        username,
+        email,
+        password,
+        gender: 'Male', 
+      };
+    
+      dispatch(register(newUser))
+      .then(res => {
+        if (res && res.success) {
+          setMessage('Registration successful!');
+          setTimeout(() => {
+            navigate('/Login');
+          }, 3000);
+        }
+      
+        setFormData({
+          username: '',
+          email: '',
+          password: '',
+          confirmPass: '',
+        }); 
+      
+        setTimeout(() => {
+          setMessage('');
+        }, 5000);
+      })
+      .catch(err => {
+        setMessage(''); 
+        setErrorMessage(err); 
+            
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 3000);
+      });
+    
+  };
+
   return (
     <div>
         <NavBar />
@@ -51,16 +120,48 @@ function Register() {
                                 </div>
                             </div>
 
-                            <div className="mx-auto w-3/5">
+                            <form onSubmit={handleSubmit}>
+
+                                <div className="mx-auto w-3/5">
                                 <input
-                                    className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                    type="email" placeholder="Name" />
+                                    id="username"
+                                    name="username"
+                                    onChange={handleChange}
+                                    className="text-bigtext sm:text-sm rounded-lg block w-full p-2.5 placeholder-gray-500 border-2 border-gray-300"
+                                    type="text"
+                                    placeholder="Name"
+                                    value={formData.username}
+                                />
+
                                 <input
-                                    className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                    type="email" placeholder="Email" />
+                                    id="email"
+                                    name="email"
+                                    onChange={handleChange}
+                                    className="text-bigtext sm:text-sm rounded-lg block w-full p-2.5 placeholder-gray-500 border-2 border-gray-300 mt-5"
+                                    type="email"
+                                    placeholder="Email"
+                                    value={formData.email}
+                                />
+
                                 <input
-                                    className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                    type="password" placeholder="Password" />
+                                    id="password"
+                                    name="password"
+                                    onChange={handleChange}
+                                    className="text-bigtext sm:text-sm rounded-lg block w-full p-2.5 placeholder-gray-500 border-2 border-gray-300 mt-3"
+                                    type="password"
+                                    placeholder="Password"
+                                    value={formData.password}
+                                />
+                                <input
+                                    type="password"
+                                    name="confirmPass"
+                                    id="confirmPass"
+                                    placeholder="Confirm Password"
+                                    className="text-bigtext sm:text-sm rounded-lg block w-full p-2.5 placeholder-gray-500 border-2 border-gray-300 mt-5"
+                                    value={formData.confirmPass}
+                                    onChange={handleChange}
+                                    required
+                                    />
                                 <button
                                     className="mt-5 tracking-wide font-semibold bg-blue-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                     <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2"
@@ -83,7 +184,8 @@ function Register() {
                                         Privacy Policy
                                     </a>
                                 </p>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
