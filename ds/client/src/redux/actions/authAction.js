@@ -61,9 +61,11 @@ export const logout = () => async (dispatch) => {
 
 export const register = (data) => async (dispatch) => {
   dispatch({ type: 'NOTIFY', payload: { loading: true } });
+  
+  const endpoint = data.role === 'medicalStoreWorker' ? 'register-medical-worker' : 'register';
 
   try {
-    const res = await postDataAPI('register', data);
+    const res = await postDataAPI(endpoint, data);
       
     if (res.status >= 200 && res.status < 300) {
       dispatch({

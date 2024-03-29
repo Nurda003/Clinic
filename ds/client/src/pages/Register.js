@@ -17,33 +17,37 @@ function Register() {
         username: '',
         email: '',
         password: '',
-        confirmPass: ''
-      });
+        confirmPass: '',
+        role: 'user'
+    });
 
       const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
       };
 
       const handleSubmit = async (e) => {
+        e.preventDefault();
+        const { username, email, password, confirmPass, role } = formData; // Added role here
+        if(password !== confirmPass){
+            alert("Passwords don't match!");
+            return;
+        }
+    
+        const newUser = {
+            fullname: username,
+            username,
+            email,
+            password,
+            role,
+            gender: 'Male', 
+        };
+    
+        dispatch(register(newUser))
+    .then(res => {
+      if (res && res.success) {
+        // update role in your Redux store 
+        dispatch({ type: 'USER_ROLE_UPDATE', payload: newUser.role });
 
-      e.preventDefault();
-      const { username, email, password, confirmPass } = formData;
-      if(password !== confirmPass){
-        alert("Passwords don't match!");
-        return;
-      }
-    
-      const newUser = {
-        fullname: username,
-        username,
-        email,
-        password,
-        gender: 'Male', 
-      };
-    
-      dispatch(register(newUser))
-      .then(res => {
-        if (res && res.success) {
           setMessage('Registration successful!');
           setTimeout(() => {
             navigate('/Login');
@@ -55,6 +59,7 @@ function Register() {
           email: '',
           password: '',
           confirmPass: '',
+          role: '',
         }); 
       
         setTimeout(() => {
@@ -162,6 +167,17 @@ function Register() {
                                     onChange={handleChange}
                                     required
                                     />
+                                    <select
+                                        id="role"
+                                        name="role"
+                                        onChange={handleChange}
+                                        value={formData.role}
+                                        className="text-bigtext sm:text-sm rounded-lg block w-full p-2.5 placeholder-gray-500 border-2 border-gray-300 mt-5"
+                                        required
+                                    >
+                                        <option value="user">User</option>
+                                        <option value="medicalStoreWorker">Medical Store Worker</option>
+                                    </select>
                                 <button
                                     className="mt-5 tracking-wide font-semibold bg-blue-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                     <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2"
@@ -185,6 +201,7 @@ function Register() {
                                     </a>
                                 </p>
                                 </div>
+
                             </form>
                         </div>
                     </div>

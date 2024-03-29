@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 
-    role: {type: String, default: 'user'},
+    role: { type: String, default: 'user', enum: ['user', 'medicalStoreWorker']},
     gender: {type: String, default: 'male'},
     saved: [{type: mongoose.Types.ObjectId, ref: 'user'}]
 }, {
