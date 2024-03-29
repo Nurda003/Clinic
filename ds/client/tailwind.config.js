@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
   theme: {
     extend: {
@@ -16,14 +17,14 @@ module.exports = {
         navh: '90px',
         heroimg: '664px',
         400: '400px',
-
+        500: '500px',
       },
       colors: {
         navbg: '#E6F6FE',
         bigtext: '#011632',
         smalltext: '#3C4959',
         clock:'#25B4F8',
-        
+        card: '#F2F0F2'
     
       },
       fontSize: {
@@ -36,6 +37,7 @@ module.exports = {
       backgroundImage: {
         login: "url('/src/img/login.png')",
         register: "url('/src/img/register.png')",
+        part: "url('/src/img/part.png')",
 
       }
 

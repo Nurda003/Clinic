@@ -6,9 +6,60 @@ import heart from '../img/heart.png'
 import cli2 from '../img/clinics2.png'
 import cli3 from '../img/clinics3.png'
 
-
+import Datepicker from "tailwind-datepicker-react"
 
 function Clinics() {
+    const options = {
+        title: 'Choose a booking date',
+        autoHide: true,
+        todayBtn: true,
+        clearBtn: false,
+        clearBtnText: 'Clear',
+        maxDate: new Date('2030-01-01'),
+        minDate: new Date('2024-01-01'),
+        theme: {
+            background: 'dark:bg-white',
+            todayBtn: '',
+            clearBtn: '',
+            icons: 'dark:bg-white dark:text-black light:bg-white light:text-black',
+            text: 'dark:text-black dark:hover:bg-blue-200',
+            disabledText: 'dark:hidden light:hidden',
+            input: 'dark:bg-white dark:text-black light:bg-white',
+            inputIcon: '',
+            selected: 'dark:bg-blue-200 dark:text-white ',
+        },
+        icons: {
+            prev: function() {
+                return <span >Prev</span>;
+            },
+            next: function() {
+                return <span>Next</span>;
+            },
+        },
+        datepickerClassNames: 'top-12',
+        defaultDate: new Date('2024-03-27'),
+        language: 'en',
+        disabledDates: [],
+        weekDays: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        inputNameProp: 'date',
+        inputIdProp: 'date',
+        inputPlaceholderProp: 'Select Date',
+        inputDateFormatProp: {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        },
+    };
+    
+    const [show, setShow] = useState(false);
+    
+    function handleChange(selectedDate) {
+        console.log(selectedDate);
+    };
+
+    function handleClose(state) {
+        setShow(state);
+    };
 
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
@@ -121,13 +172,53 @@ function Clinics() {
             </div>
             {isBookingModalOpen && (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div className="bg-white p-8 rounded-lg">
+        <div className="bg-navbg p-8 rounded-lg">
             <button onClick={handleModalCloseClick}>Close</button>
             <h2 id="modalTitle">Book an Appointment</h2>
             <form id="bookingForm">
-                <label id="fnameLabel" htmlFor="fname">First Name:</label>
-                <input type="text" id="fname" name="fname" required aria-describedby="fnameLabel" />
-                {/* Rest of the form inputs */}
+                <div className="flex gap-5">
+                    <div className="flex flex-col">
+                        <label id="fnameLabel" htmlFor="fname" className='text-lg text-bigtext ml-1 font-medium'>First Name:</label>
+                        <input type="text" id="fname" name="fname" className='p-2 border border-gray-400 rounded-xl mt-2' required aria-describedby="fnameLabel" placeholder='First name' />
+                    </div>
+                    <div className="flex flex-col">
+                        <label id="fnameLabel" htmlFor="fname" className='text-lg text-bigtext ml-1 font-medium'>Last Name:</label>
+                        <input type="text" id="fname" name="fname" required aria-describedby="fnameLabel" className='p-2 border  mt-2 border-gray-400 rounded-xl' placeholder='Last name'/>
+                    </div>
+
+                </div>
+                <div className="flex flex-col mt-2">
+                    <div className="flex flex-col">
+                        <label id="emailLabel" htmlFor="email" className='text-lg text-bigtext ml-1 font-medium'>Email:</label>
+                        <input type="email" id="email" name="email" required aria-describedby="emailLabel" className='p-2 border border-gray-400 rounded-xl mt-2' placeholder='Email'/>
+                    </div>
+                    <div className="flex flex-col">
+                        <label id="phoneNumber" htmlFor="phione" className='text-lg text-bigtext ml-1 mt-2 font-medium'>Phone number:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
+                                    <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
+                                </svg>
+                            </div>
+                            <input type="text" id="phone-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  " pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" required />
+                        </div>
+                    </div>
+                    <div className="flex flex-col">
+                        <label id="emailLabel" htmlFor="email" className='text-lg text-bigtext ml-1 mt-2 font-medium'>Date:</label>
+                        <Datepicker options={options} onChange={handleChange} show={show} setShow={handleClose} />
+
+                    </div>
+                    <div className="flex flex-col mt-2">
+                        
+                        <label for="message" className="text-lg text-bigtext ml-1 mt-2 font-medium">Message</label>
+                        <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your message here..."></textarea>
+
+                    </div>
+                    <button className='w-1/2 mx-auto mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 rounded-lg px-4' >Book an appointment</button>
+                    
+                </div>
+                
+                
             </form> 
         </div>
     </div>
@@ -179,7 +270,7 @@ function Clinics() {
                         <div className="w-12 h-12 flex justify-center items-center border border-blue-600 rounded-xl">
                             <img src={heart} alt="" />
                         </div> 
-                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 rounded-lg px-7 w-full'>Book</button>
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 rounded-lg px-7 w-full' onClick={handleBookingClick}>Book</button>
                     </div>
                 </div>
             </div>
@@ -231,7 +322,7 @@ function Clinics() {
                         <div className="w-12 h-12 flex justify-center items-center border border-blue-600 rounded-xl">
                             <img src={heart} alt="" />
                         </div> 
-                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 rounded-lg px-7 w-full'>Book</button>
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 rounded-lg px-7 w-full' onClick={handleBookingClick}>Book</button>
                     </div>
                 </div>
             </div>
