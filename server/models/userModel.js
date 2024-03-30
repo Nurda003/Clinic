@@ -28,7 +28,9 @@ const userSchema = new mongoose.Schema({
 
     role: { type: String, default: 'user', enum: ['user', 'medicalStoreWorker']},
     gender: {type: String, default: 'male'},
-    saved: [{type: mongoose.Types.ObjectId, ref: 'user'}]
+    saved: [{type: mongoose.Types.ObjectId, ref: 'user'}],
+    clinics: [{ type: mongoose.Schema.Types.ObjectId, ref: 'clinic' }],
+
 }, {
     timestamps: true
 })

@@ -2,7 +2,44 @@ const Users = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
  
+const Clinic = require('../models/clinicsModel')
 const authCtrl = {
+    getClinics : async (req, res) => {
+        try {
+            const clinics = await Clinic.find();
+            res.json(clinics);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send();
+        }
+    },
+
+    createClinics : async (req, res) => {
+        try {
+            let { name, address, image, medicalWorker } = req.body;
+
+            if (!medicalWorker) {
+              return res.status(400).json({ error: 'Medical Worker information is required' });
+            }
+    
+          // Continue with clinic creation...
+          const newClinic = new Clinic({
+            name,
+            address,
+            image,
+            medicalWorker
+          });
+    
+          const savedClinic = await newClinic.save();
+    
+          res.json(savedClinic);
+        } catch (error) {
+          console.error(error);
+          res.status(500).send();
+        }
+      },
+
+
     registerMedicalWorker: async (req, res) => {
         try {
             const { fullname, username, email, password, gender, role } = req.body

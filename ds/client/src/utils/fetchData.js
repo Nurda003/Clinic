@@ -13,7 +13,7 @@ export const getDataAPI = async (url, token) => {
 export const postDataAPI = async (url, post, token) => {
     let res;
     try {
-        res = await axios.post(`/api/${url}`, post, {
+        res = await axios.post(`/${url}`, post, {
             headers: { Authorization: token }
         });
     } catch (error) {

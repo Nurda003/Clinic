@@ -1,4 +1,5 @@
-import React, { useState }  from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 import NavBar from '../comps/NavBar'
 import Footer from '../comps/Footer'
 import cli1 from '../img/clinics1.png'
@@ -11,9 +12,9 @@ import Datepicker from "tailwind-datepicker-react"
 function Clinics() {
     const options = {
         title: 'Choose a booking date',
-        autoHide: true,
-        todayBtn: true,
-        clearBtn: false,
+        autoHide: 'true',
+        todayBtn: 'true',
+        clearBtn: 'false',
         clearBtnText: 'Clear',
         maxDate: new Date('2030-01-01'),
         minDate: new Date('2024-01-01'),
@@ -71,6 +72,28 @@ function Clinics() {
         setIsBookingModalOpen(false);
     };
 
+    const [clinics, setClinics] = useState([]);
+
+    function addClinic(newClinic) {
+        setClinics([...clinics, newClinic]);
+    }
+
+    useEffect(() => {
+        const fetchClinics = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/clinics');
+                setClinics(response.data)
+                console.log(response.data);
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        
+
+        fetchClinics()
+    }, [])
+
+
 
   return (
     <div className='bg-navbg rounded-xl'>
@@ -116,18 +139,21 @@ function Clinics() {
         <div className="flex flex-col w-11/12 justify-center items-center">
 
 
-            <div className="flex w-full  gap-6 p-3 rounded-2xl bg-white items-center mt-10">
-                <div className="w-heroimg">
-                    <img src={cli1} alt="" />
+            {clinics.map(clinic => ( 
+                <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
+                    <div className="w-heroimg">
+                    <img src={cli2} alt="" />
                 </div>
-                <div className="w-full bg-white">
+                <div className="w-full p-3 bg-white">
                     <div className="flex w-full justify-between ">
                         <div className="flex flex-col gap-3">
-                            <h1 className='text-2xl font-bold text-bigtext'>Dent X</h1>
-                            <p className='text-base text-smalltext'>Almaty, Abaya 108 / Medeu District</p>
-                            <div className="flex gap-4">
-
-                                <div className="flex items-center">
+                        
+                    {/*... rest of your code ... */}
+                    <h1 className='text-2xl font-bold text-bigtext'>{clinic.name}</h1>
+                    <p className='text-base text-smalltext'>{clinic.address}</p>
+                    {/*... rest of your code ... */}
+                    <div className="flex gap-4">
+                    <div className="flex items-center">
                                     <svg className="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                         <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
                                     </svg>
@@ -164,12 +190,12 @@ function Clinics() {
                             <img src={heart} alt="" />
                         </div> 
                         <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 rounded-lg px-7 w-full' onClick={handleBookingClick}>Book</button>
-        
                     </div>
-                    
                 </div>
-                
             </div>
+            ))}
+
+
             {isBookingModalOpen && (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div className="bg-navbg p-8 rounded-lg">
