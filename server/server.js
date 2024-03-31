@@ -4,17 +4,19 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
+
 const app = express();
 app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:3000', // should be the address of your client-side application
-    credentials: true
+    credentials: true,
 }));
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the server' });
 });
+
 
 app.use('/api', require('./routes/authRouter'));
 
