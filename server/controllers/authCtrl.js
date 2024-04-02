@@ -6,7 +6,7 @@ const Clinic = require('../models/clinicsModel')
 const authCtrl = {
     getClinics : async (req, res) => {
         try {
-            const clinics = await Clinic.find();
+            const clinics = await Clinic.find().sort({ createdAt: -1 });
             res.json(clinics);
         } catch (error) {
             console.error(error);
@@ -16,20 +16,16 @@ const authCtrl = {
 
     createClinics : async (req, res) => {
         try {
-            let { name, address, image, medicalWorker } = req.body;
+            const {name, address, medicalWorker} = req.body;
 
-            if (!medicalWorker) {
-              return res.status(400).json({ error: 'Medical Worker information is required' });
-            }
-    
-          // Continue with clinic creation...
-          const newClinic = new Clinic({
-            name,
-            address,
-            image,
-            medicalWorker
-          });
-    
+        if (!name || !address || !medicalWorker) {  // Validate that all expected fields exist
+            return res.status(400).send('Bad request: name, medicalWorker, and address are required');
+        }
+
+        const image = req.file ? req.file.filename : null;
+
+        const newClinic = new Clinics({name, medicalWorker, address, image});
+            
           const savedClinic = await newClinic.save();
     
           res.json(savedClinic);

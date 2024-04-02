@@ -142,7 +142,7 @@ function Clinics() {
             {clinics.map(clinic => ( 
                 <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg">
-                    <img src={cli2} alt="" />
+                    <img src={`http://localhost:5000/api/images/${clinic.image}`} alt="Clinic" />
                 </div>
                 <div className="w-full p-3 bg-white">
                     <div className="flex w-full justify-between ">
