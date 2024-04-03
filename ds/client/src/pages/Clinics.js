@@ -84,6 +84,9 @@ function Clinics() {
                 const response = await axios.get('http://localhost:5000/api/clinics');
                 setClinics(response.data)
                 console.log(response.data);
+                console.log("Clinics consol.log ")
+                console.log(clinics)
+                
             } catch (error) {
                 console.error(error)
             }
@@ -92,8 +95,7 @@ function Clinics() {
 
         fetchClinics()
     }, [])
-
-
+    console.log(clinics)
 
   return (
     <div className='bg-navbg rounded-xl'>
@@ -116,7 +118,7 @@ function Clinics() {
                         <button id="dropdown-button" data-dropdown-toggle="dropdown" className="h-12 w-60 flex justify-between items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-white border-2 border-gray-400 rounded-lg" type="button">
                             ...
                             <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                             </svg>
                         </button>
                         
@@ -142,8 +144,10 @@ function Clinics() {
             {clinics.map(clinic => ( 
                 <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg">
-                    <img src={`http://localhost:5000/api/images/${clinic.image}`} alt="Clinic" />
-                </div>
+                    {clinic.image && 
+                        <img src={`http://localhost:5000/api/image/${clinic.image.filename}`} alt={clinic.name} />
+                    }
+                    </div>
                 <div className="w-full p-3 bg-white">
                     <div className="flex w-full justify-between ">
                         <div className="flex flex-col gap-3">

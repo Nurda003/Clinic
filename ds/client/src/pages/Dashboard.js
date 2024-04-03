@@ -20,7 +20,9 @@ function Dashboard() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('myFile', clinic.image); // get the image file from state
+    formData.append('name', clinic.name);
+    formData.append('address', clinic.address);
+    formData.append('image', clinic.image);
 
     for (var pair of formData.entries()) {
         console.log(pair[0] + ', ' + pair[1]); 
@@ -33,13 +35,14 @@ function Dashboard() {
             'Content-Type': 'multipart/form-data'
         }
       });
-      
+
       if(response.data) {
         setClinic({ name: '', address: '', image: '' });
       }
     } catch (err) {
       console.error(err);
     }
+    
   }
 
   const user = useSelector(state => state.auth.auth.user);
@@ -61,7 +64,7 @@ function Dashboard() {
         </label>
         <label htmlFor="image">
           Clinic Image:
-          <input type="file" name="myFile" accept="image/*" onChange={handleImageChange} />
+          <input type="file" name="image" accept="image/*" onChange={handleImageChange} />
         </label>
         {/* and so on for other fields... */}
         <button type="submit">Create Clinic</button>

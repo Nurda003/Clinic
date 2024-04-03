@@ -14,9 +14,9 @@ const clinicSchema = new mongoose.Schema({
         maxlength: 200
     },
     image: {
-        type: String,
-        trim: true,
-        maxlength: 500
+        id: String,
+        contentType: String,
+        filename: String
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,

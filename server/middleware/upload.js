@@ -4,23 +4,15 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const path = require('path');
 
-const storage = new GridFsStorage({
-  url: 'mongodb+srv://tim:tima123123@cluster1.p11gunc.mongodb.net/?retryWrites=true&w=majority',  //  db url
-  options: { useUnifiedTopology: true, useNewUrlParser: true },
-  filename: (req, file, cb) => {
-    crypto.randomBytes(16, (err, buf) => {
-      if (err) {
-        return cb(err);
-      }
-      const filename = buf.toString('hex') + path.extname(file.originalname);
-      cb(null, filename);
-    });
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './uploads/');
   },
-  metafunction(req, file, cb) {
-    cb(null, { _id: new mongoose.Types.ObjectId() });
-  },
-  bucketName: 'test'
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
 });
+
 
 const upload = multer({ storage }); 
 

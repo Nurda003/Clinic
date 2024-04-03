@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const GridFsStorage = require('multer-gridfs-storage').GridFsStorage;
 const multer = require('multer');
 const path = require('path');
-
+const Clinic = require('../server/models/clinicsModel');
 const app = express();
 
 // create storage engine
@@ -32,18 +32,40 @@ app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the server' });
 });
 
+
 // Multer Middleware for file upload
-app.post('/api/clinics', upload.single('image'), function (req, res) {
-    console.log(req.file);
-    res.json({ file: req.file });
+app.post('/api/clinics', upload.single('image'), (req, res) => {
+  let newClinic = new Clinic({
+      name: req.body.name, // Add your field names
+      address: req.body.address,
+      image: { // store file data
+          id: req.file.id,
+          contentType: req.file.contentType,
+          filename: req.file.filename
+      }
+  });
+
+  newClinic.save()
+      .then(clinic => res.json(clinic))
+      .catch(err => res.status(400).json('Error:' + err));
 });
 
 // Route for serving images
-app.get('/api/images/:filename', (req, res) => {
-  const gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-    bucketName: 'uploads'
+app.get('/api/image/:filename', (req, res) => {
+  const { filename } = req.params;
+  const filepath = path.resolve('./path-to-images', filename);
+
+  fs.access(filepath, fs.constants.F_OK, (err) => {
+    // Check if file exists
+    if (err) {
+      console.error("File doesn't exist");
+      return res.status(404).send();
+    }
+
+    // If file exists, set Content-Type to image/* (or whichever specific mimetype matches your image file) and send file
+    res.setHeader('Content-Type', 'image/jpeg'); // replace 'image/jpeg' with the mimetype of your images
+    return res.sendFile(filepath);
   });
-  gfs.openDownloadStreamByName(req.params.filename).pipe(res);
 });
 
 app.use('/api', require('./routes/authRouter'));
