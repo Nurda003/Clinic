@@ -60,14 +60,14 @@ app.get('/api/image/:filename', async (req, res) => {
 
     try {
         await client.connect();
-        const db = client.db("test"); // replace "YourDatabaseName" with the name of your database
+        const db = client.db("test"); 
         const bucket = new GridFSBucket(db, {
-            bucketName: "fs" // replace "fs" with your bucket name if different
+            bucketName: "fs" 
         });
 
         const image = await bucket.openDownloadStreamByName(filename);
 
-        res.setHeader('Content-Type', 'image/jpeg'); // replace 'image/jpeg' with the content type of your images
+        res.setHeader('Content-Type', 'image/jpeg'); 
         image.pipe(res);
     } catch (err) {
         console.error(err);
