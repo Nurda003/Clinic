@@ -7,6 +7,8 @@ const GridFsStorage = require('multer-gridfs-storage').GridFsStorage;
 const multer = require('multer');
 const path = require('path');
 const Clinic = require('../server/models/clinicsModel');
+const { MongoClient } = require("mongodb");
+const { GridFSBucket } = require("mongodb");
 const app = express();
 
 // create storage engine
@@ -32,7 +34,6 @@ app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the server' });
 });
 
-
 // Multer Middleware for file upload
 app.post('/api/clinics', upload.single('image'), (req, res) => {
   let newClinic = new Clinic({
@@ -51,21 +52,27 @@ app.post('/api/clinics', upload.single('image'), (req, res) => {
 });
 
 // Route for serving images
-app.get('/api/image/:filename', (req, res) => {
-  const { filename } = req.params;
-  const filepath = path.resolve('./path-to-images', filename);
+app.get('/api/image/:filename', async (req, res) => {
 
-  fs.access(filepath, fs.constants.F_OK, (err) => {
-    // Check if file exists
-    if (err) {
-      console.error("File doesn't exist");
-      return res.status(404).send();
+    const { filename } = req.params;
+
+    const client = new MongoClient(process.env.MONGODB_URL);
+
+    try {
+        await client.connect();
+        const db = client.db("test"); // replace "YourDatabaseName" with the name of your database
+        const bucket = new GridFSBucket(db, {
+            bucketName: "fs" // replace "fs" with your bucket name if different
+        });
+
+        const image = await bucket.openDownloadStreamByName(filename);
+
+        res.setHeader('Content-Type', 'image/jpeg'); // replace 'image/jpeg' with the content type of your images
+        image.pipe(res);
+    } catch (err) {
+        console.error(err);
+        res.status(404).send('Image not found');
     }
-
-    // If file exists, set Content-Type to image/* (or whichever specific mimetype matches your image file) and send file
-    res.setHeader('Content-Type', 'image/jpeg'); // replace 'image/jpeg' with the mimetype of your images
-    return res.sendFile(filepath);
-  });
 });
 
 app.use('/api', require('./routes/authRouter'));
