@@ -1,8 +1,21 @@
 import React from 'react'
+import classnames from 'classnames';
+import { useLocation } from 'react-router-dom';
+
 
 function Footer() {
+    const { pathname } = useLocation();
+    
+    const padClass = classnames({
+        'px-20': pathname === '/',
+        'py-10': pathname === '/',
+
+        'px-0': pathname === '/Dashboard',
+        'py-0': pathname === '/Dashboard',
+    });
+
   return (
-    <div className='px-20 py-10'>
+    <div className={`${padClass}`}>
         <footer className="p-4 bg-white sm:p-6 ">
             <div className="mx-auto w-full">
                 <div className="md:flex md:justify-between">

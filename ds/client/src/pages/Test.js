@@ -1,60 +1,9 @@
-import React , { useState } from 'react'
-import { useSelector } from 'react-redux';
-import Footer from '../comps/Footer';
+import React from 'react'
+import Footer from '../comps/Footer'
 
-import axios from 'axios'; // import axios in your dashboard component
-
-
-function Dashboard() {
-
-  const [clinic, setClinic] = useState({ name: '', address: '', image: '' });
-
-  const handleImageChange = (e) => {
-    setClinic({ ...clinic, [e.target.name]: e.target.files[0] });
-    console.log(e.target.files[0]);
-  };
-  const handleChange = (e) => {
-    setClinic({...clinic, [e.target.name]: e.target.value });
-  }
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', clinic.name);
-    formData.append('address', clinic.address);
-    formData.append('image', clinic.image);
-
-    for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]); 
-    }
-
-    // Provide response variable
-    try {
-      const response = await axios.post('/api/clinics', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      if(response.data) {
-        setClinic({ name: '', address: '', image: '' });
-      }
-    } catch (err) {
-      console.error(err);
-    }
-    
-  }
-
-  const user = useSelector(state => state.auth.auth.user);
-
-  if (user?.role !== 'medicalStoreWorker') {
-    return <div>You are not authorized to view this page</div>;
-  }
-
+function Test() {
   return (
     <div>
-      
-      <div>
         <div>
             <nav className="bg-white border-b border-gray-200 fixed z-30 w-full">
                 <div className="px-3 py-3 lg:px-5 lg:pl-3">
@@ -91,14 +40,14 @@ function Dashboard() {
                         </a>
                      </li>
 
-                     {/* <li>
+                     <li>
                         <a href="#" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
                            <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
                            </svg>
                            <span className="ml-3 flex-1 whitespace-nowrap">Bookings</span>
                         </a>
-                     </li> */}
+                     </li>
                   </ul>
                   <div className="space-y-2 pt-2">
                      <a href="#" target="_blank" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
@@ -112,37 +61,12 @@ function Dashboard() {
             </div>
          </div>
       </aside>
-      <div className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop">
-        
-      </div>
-
-      <div id="main-content" className="h-full w-full bg-gray-100 relative overflow-y-auto lg:ml-64">
-
+      <div className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
+      <div id="main-content" className="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
          <main>
-          
             <div className="pt-6 px-4">
                <div className="w-full flex flex-col gap-4">
-                  <h1 className='w-full text-center text-bigtext text-4xl p-3'>Create your clinics</h1>
-                  <div className='bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 '>
-                    <form className="max-w-md mx-auto h-full w-full  relative overflow-y-auto "  action="/upload" method="post" encType="multipart/form-data" onSubmit={handleFormSubmit}>
-                      <div className="relative z-0 w-full mb-5 group mt-2">
-                          <input  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required id="name" name="name" type="text" aria-label="Enter the clinic name"  value={clinic.name} onChange={handleChange}   />
-                          <label for="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
-                      </div>
-                      <div className=" relative z-0 w-full mb-5 group">
-                          <input type="password"  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " id="address" name="address"  aria-label="Enter the address" required value={clinic.address} onChange={handleChange} />
-                          <label for="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 p peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
-                      </div>
-                      <div className="w-full mb-5 group">
-                        <label className="block mb-2 text-sm font-medium text-gray-900 " for="user_avatar">Upload file</label>
-                        <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " aria-describedby="user_avatar_help" id="user_avatar"   type="file" name="image" accept="image/*" onChange={handleImageChange} />
-                        <div className="mt-1 text-sm text-gray-500 " id="user_avatar_help">A profile picture is useful to confirm your account</div>
-                      </div>
-                      <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Submit</button>
-                    </form>
-                  </div>
-
-                  <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-14 ">
+                  <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
                      <div className="mb-4 flex items-center justify-between">
                         <div>
                            <h3 className="text-xl font-bold text-gray-900 mb-2">Latest Customers</h3>
@@ -189,14 +113,13 @@ function Dashboard() {
                   
             </div>
          </main>
-        <Footer  />
+        <Footer />
       </div>
    </div>
 
 </div>
     </div>
-    </div>
   )
 }
 
-export default Dashboard;
+export default Test
