@@ -65,8 +65,9 @@ export const register = (data) => async (dispatch) => {
   const endpoint = data.role === 'medicalStoreWorker' ? 'register-medical-worker' : 'register';
 
   try {
-    const res = await postDataAPI(endpoint, data);
-      
+    const res = await postDataAPI(`api/${endpoint}`, data);
+      console.log('register response: ', res);
+      console.log('register data: ', data);
     if (res.status >= 200 && res.status < 300) {
       dispatch({
         type: "AUTH",

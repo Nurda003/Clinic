@@ -51,7 +51,7 @@ function Register() {
           setMessage('Registration successful!');
           setTimeout(() => {
             navigate('/Login');
-          }, 3000);
+          }, 2000);
         }
       
         setFormData({
@@ -69,6 +69,7 @@ function Register() {
       .catch(err => {
         setMessage(''); 
         setErrorMessage(err); 
+        console.log(err)
             
         setTimeout(() => {
           setErrorMessage('');

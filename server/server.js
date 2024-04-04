@@ -10,6 +10,9 @@ const Clinic = require('../server/models/clinicsModel');
 const { MongoClient } = require("mongodb");
 const { GridFSBucket } = require("mongodb");
 const app = express();
+const NodeCache = require( "node-cache" );
+const imageCache = new NodeCache();
+const Booking = require('../server/models/bookingModel');
 
 // create storage engine
 const storage = new GridFsStorage({
@@ -54,25 +57,64 @@ app.post('/api/clinics', upload.single('image'), (req, res) => {
 // Route for serving images
 app.get('/api/image/:filename', async (req, res) => {
 
-    const { filename } = req.params;
+  const { filename } = req.params;
+  let image = imageCache.get(filename);
 
-    const client = new MongoClient(process.env.MONGODB_URL);
+  // Load from the cache if possible
+  if (image) {
+    res.setHeader('Content-Type', image.contentType); 
+    res.send(image.buffer);
+    return;
+  }
 
-    try {
-        await client.connect();
-        const db = client.db("test"); 
-        const bucket = new GridFSBucket(db, {
-            bucketName: "fs" 
-        });
+  const client = new MongoClient(process.env.MONGODB_URL);
 
-        const image = await bucket.openDownloadStreamByName(filename);
+  try {
+      await client.connect();
+      const db = client.db("test"); 
+      const bucket = new GridFSBucket(db, {
+          bucketName: "fs" 
+      });
 
-        res.setHeader('Content-Type', 'image/jpeg'); 
-        image.pipe(res);
-    } catch (err) {
-        console.error(err);
-        res.status(404).send('Image not found');
-    }
+      const downloadStream = bucket.openDownloadStreamByName(filename);
+      let chunks = [];
+      downloadStream.on('data', (chunk) => {
+        chunks.push(chunk);
+      });
+
+      downloadStream.on('end', () => {
+        let buffer = Buffer.concat(chunks);
+        let imageObject = {
+          contentType: 'image/jpeg',
+          buffer
+        };
+        // Cache the image
+        imageCache.set(filename, imageObject);
+        res.setHeader('Content-Type', imageObject.contentType); 
+        res.send(buffer);
+      });
+
+  } catch (err) {
+      console.error(err);
+      res.status(404).send('Image not found');
+  }
+});
+
+//router for back end booking
+
+app.post('/api/bookings', (req, res) => {
+  const newBooking = new Booking({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
+    date: req.body.date,
+    message: req.body.message,
+  });
+
+  newBooking.save()
+    .then(booking => res.json(booking))
+    .catch(err => res.status(400).send('Error:' + err));
 });
 
 app.use('/api', require('./routes/authRouter'));

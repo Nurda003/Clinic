@@ -54,10 +54,6 @@ function Clinics() {
     
     const [show, setShow] = useState(false);
     
-    function handleChange(selectedDate) {
-        console.log(selectedDate);
-    };
-
     function handleClose(state) {
         setShow(state);
     };
@@ -66,11 +62,40 @@ function Clinics() {
 
     const handleBookingClick = () => {
         setIsBookingModalOpen(true);
-    };
-
+      };
+      
     const handleModalCloseClick = () => {
         setIsBookingModalOpen(false);
     };
+
+    const handleFormFieldChange = (e) => {
+        e.preventDefault();
+        setBookingForm({
+          ...bookingForm,
+          [e.target.name]: e.target.value
+        }); 
+    };
+      
+      // For date-handler:
+    const handleChange = (date) => {
+        setBookingForm({
+            ...bookingForm,
+            date
+        });
+    };
+
+    const handleBookingFormSubmit = (e) => {
+        e.preventDefault();
+        // Backend API call to save booking
+        // Replace "/api/bookings" and 'POST' with your actual API endpoint and method to save the booking.
+        axios.post("/api/bookings", bookingForm)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
 
     const [clinics, setClinics] = useState([]);
 
@@ -96,6 +121,15 @@ function Clinics() {
         fetchClinics()
     }, [])
     console.log(clinics)
+
+    const [bookingForm, setBookingForm] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        date: {},
+        message: ''
+      });
 
   return (
     <div className='bg-navbg rounded-xl'>
@@ -205,7 +239,7 @@ function Clinics() {
         <div className="bg-navbg p-8 rounded-lg">
             <button onClick={handleModalCloseClick}>Close</button>
             <h2 id="modalTitle">Book an Appointment</h2>
-            <form id="bookingForm">
+            <form id="bookingForm" onSubmit={handleBookingFormSubmit}>
                 <div className="flex gap-5">
                     <div className="flex flex-col">
                         <label id="fnameLabel" htmlFor="fname" className='text-lg text-bigtext ml-1 font-medium'>First Name:</label>
