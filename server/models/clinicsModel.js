@@ -13,6 +13,17 @@ const clinicSchema = new mongoose.Schema({
         trim: true,
         maxlength: 200
     },
+    doctor: {
+        type: String, 
+        required: true,
+        maxlength: 30 
+    },
+    price: { 
+        type: Number, 
+        required: true,
+        maxlength: 4
+    },
+    rating: { type: Number },
     image: {
         id: String,
         contentType: String,

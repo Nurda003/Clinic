@@ -53,9 +53,13 @@ function NavBar() {
                 </span>
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
+              {auth.user?.role === 'medicalStoreWorker' && 
                 <li>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><Link to='/Dashboard'>Dashboard</Link></a>
+                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link to='/Dashboard'>Dashboard</Link>
+                  </a>
                 </li>
+              }
                 <li>
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                 </li>

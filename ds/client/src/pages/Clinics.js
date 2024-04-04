@@ -14,20 +14,21 @@ function Clinics() {
         title: 'Choose a booking date',
         autoHide: 'true',
         todayBtn: 'true',
-        clearBtn: 'false',
+        clearBtn: false,
         clearBtnText: 'Clear',
         maxDate: new Date('2030-01-01'),
         minDate: new Date('2024-01-01'),
         theme: {
-            background: 'dark:bg-white',
-            todayBtn: '',
+            background: 'dark:bg-cyan-900 light:bg-cyan-900',
+            todayBtn: 'dark:bg-blue-400 light:bg-blue-400',
             clearBtn: '',
-            icons: 'dark:bg-white dark:text-black light:bg-white light:text-black',
-            text: 'dark:text-black dark:hover:bg-blue-200',
+            icons: 'dark:bg-cyan-900 light:bg-cyan-900' ,
+            text: ' ',
             disabledText: 'dark:hidden light:hidden',
-            input: 'dark:bg-white dark:text-black light:bg-white',
+            input: 'dark:bg-white dark:text-black light:bg-white light:text-black',
             inputIcon: '',
-            selected: 'dark:bg-blue-200 dark:text-white ',
+            selected: '',
+            title: 'dark:bg-teal-500 dark:text-white light:bg-blue-500 light:text-white',
         },
         icons: {
             prev: function() {
@@ -74,20 +75,31 @@ function Clinics() {
           ...bookingForm,
           [e.target.name]: e.target.value
         }); 
-    };
+      };
+      function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');
+    }
       
       // For date-handler:
-    const handleChange = (date) => {
-        setBookingForm({
-            ...bookingForm,
-            date
+      const handleChange = (event) => {
+        const {name, value} = event.target;
+        setBookingForm(prevFormState => {
+          return {...prevFormState, [name]: value};
         });
-    };
-
+      };
     const handleBookingFormSubmit = (e) => {
         e.preventDefault();
-        // Backend API call to save booking
-        // Replace "/api/bookings" and 'POST' with your actual API endpoint and method to save the booking.
+        console.log(bookingForm);
         axios.post("/api/bookings", bookingForm)
           .then((response) => {
             console.log(response);
@@ -130,6 +142,16 @@ function Clinics() {
         date: {},
         message: ''
       });
+
+      const getRatingText = (rating) => {
+        if (rating >= 4.5) {
+          return 'Very Good';
+        } else if (rating >= 4) {
+          return 'Good';
+        } else {
+          return 'Normal';
+        }
+      }
 
   return (
     <div className='bg-navbg rounded-xl'>
@@ -213,13 +235,15 @@ function Clinics() {
 
                             </div>
                             <div className="flex gap-4 items-center">
-                                <p className="bg-white border-blue-600 border w-9 text-bigtext text-sm font-semibold justify-center items-center p-1.5 rounded "><span>4.2</span></p>
-                                <p className='font-semibold'>Very good</p>
+                                <p className="bg-white border-blue-600 border w-9 text-bigtext text-sm font-semibold justify-center items-center p-1.5 rounded "><span>{clinic.rating}</span></p>
+                                <p className='font-semibold'>{getRatingText(clinic.rating)}</p>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
                             <p className='text-base text-smalltext font-semibold'>Starting from</p>
-                            <p className='text-2xl text-blue-700 font-bold'>$30 min</p>
+                            <p className='text-2xl text-blue-700 font-bold max-w-80'>Doctor: {clinic.doctor}</p>
+                            <p className='text-2xl text-blue-700 font-bold'>${clinic.price}</p>
+
                         </div>
                     </div>
                     <hr className='w-full bg-gray-500 my-4' />
@@ -242,40 +266,83 @@ function Clinics() {
             <form id="bookingForm" onSubmit={handleBookingFormSubmit}>
                 <div className="flex gap-5">
                     <div className="flex flex-col">
-                        <label id="fnameLabel" htmlFor="fname" className='text-lg text-bigtext ml-1 font-medium'>First Name:</label>
-                        <input type="text" id="fname" name="fname" className='p-2 border border-gray-400 rounded-xl mt-2' required aria-describedby="fnameLabel" placeholder='First name' />
+                        <label id="fnameLabel" htmlFor="firstName" className='text-lg text-bigtext ml-1 font-medium'>First Name:</label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            name="firstName" 
+                            className='p-2 border border-gray-400 rounded-xl mt-2'
+                            required 
+                            aria-describedby="firstNameLabel" 
+                            placeholder='First name'
+                            value={bookingForm.firstName}
+                            onChange={handleFormFieldChange}
+                        />
                     </div>
                     <div className="flex flex-col">
-                        <label id="fnameLabel" htmlFor="fname" className='text-lg text-bigtext ml-1 font-medium'>Last Name:</label>
-                        <input type="text" id="fname" name="fname" required aria-describedby="fnameLabel" className='p-2 border  mt-2 border-gray-400 rounded-xl' placeholder='Last name'/>
+                        <label id="lnameLabel" htmlFor="lastName" className='text-lg text-bigtext ml-1 font-medium'>Last Name:</label>
+                        <input 
+                        type="text" 
+                        id="lastName" 
+                        name="lastName" 
+                        required aria-describedby="lastNameLabel" 
+                        className='p-2 border mt-2 border-gray-400 rounded-xl' 
+                        placeholder='Last name'
+                        value={bookingForm.lastName}
+                        onChange={handleFormFieldChange}
+                        />
                     </div>
 
                 </div>
                 <div className="flex flex-col mt-2">
                     <div className="flex flex-col">
                         <label id="emailLabel" htmlFor="email" className='text-lg text-bigtext ml-1 font-medium'>Email:</label>
-                        <input type="email" id="email" name="email" required aria-describedby="emailLabel" className='p-2 border border-gray-400 rounded-xl mt-2' placeholder='Email'/>
+                        <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required aria-describedby="emailLabel" 
+                        className='p-2 border border-gray-400 rounded-xl mt-2' 
+                        placeholder='Email'
+                        value={bookingForm.email}
+                        onChange={handleFormFieldChange}
+                        />
                     </div>
                     <div className="flex flex-col">
-                        <label id="phoneNumber" htmlFor="phione" className='text-lg text-bigtext ml-1 mt-2 font-medium'>Phone number:</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
+                        <label id="phoneNumber" htmlFor="phoneNumber" className='text-lg text-bigtext ml-1 mt-2 font-medium'>Phone number:</label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
                                     <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
                                 </svg>
                             </div>
-                            <input type="text" id="phone-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  " pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" required />
+                            <input 
+                            type="text" 
+                            id="phoneNumber" 
+                            name="phoneNumber" 
+                            required aria-describedby="phoneNumberLabel" 
+                            className='p-2 border border-gray-400 rounded-xl mt-2' 
+                            placeholder='Phone number'
+                            value={bookingForm.phoneNumber}
+                            onChange={handleFormFieldChange}
+                            />
                         </div>
                     </div>
                     <div className="flex flex-col">
-                        <label id="emailLabel" htmlFor="email" className='text-lg text-bigtext ml-1 mt-2 font-medium'>Date:</label>
-                        <Datepicker options={options} onChange={handleChange} show={show} setShow={handleClose} />
+                        <label htmlFor="appointmentDate">Choose a date for your appointment:</label>
+                        <input type="date" id="date" name="date" required pattern="\d{4}-\d{2}-\d{2}" aria-describedby="date-format"                              value={bookingForm.date}
+                        onChange={handleChange}/>
+                        <span id="date-format" className="text-small text-gray-500">Format: YYYY-MM-DD</span>
 
                     </div>
                     <div className="flex flex-col mt-2">
                         
-                        <label for="message" className="text-lg text-bigtext ml-1 mt-2 font-medium">Message</label>
-                        <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your message here..."></textarea>
+                        <label htmlFor="message" className="text-lg text-bigtext ml-1 mt-2 font-medium">Message</label>
+                        <textarea d="message" name="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your message here..."
+                        onChange={handleFormFieldChange}
+                        value={bookingForm.message}
+                        
+                        ></textarea>
 
                     </div>
                     <button className='w-1/2 mx-auto mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 rounded-lg px-4' >Book an appointment</button>

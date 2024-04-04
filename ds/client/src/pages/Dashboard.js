@@ -1,13 +1,15 @@
 import React , { useState } from 'react'
 import { useSelector } from 'react-redux';
 import Footer from '../comps/Footer';
+import { useEffect } from 'react';
 
 import axios from 'axios'; // import axios in your dashboard component
+import { Link } from 'react-router-dom';
 
 
 function Dashboard() {
 
-  const [clinic, setClinic] = useState({ name: '', address: '', image: '' });
+  const [clinic, setClinic] = useState({ name: '', address: '', image: '', doctor: '', price: '' });
   const [bookings, setBookings] = useState([]);
 
 
@@ -19,18 +21,38 @@ function Dashboard() {
     setClinic({...clinic, [e.target.name]: e.target.value });
   }
 
+  useEffect(() => {
+
+   const fetchBookings = async () => {
+     try {
+       const response = await axios.get('/api/bookings');
+       console.log("Bookings ", response.data);
+       setBookings(response.data);
+     } catch (err) {
+       console.error("Error fetching bookings: ", err);
+     }
+   }
+   
+   fetchBookings();
+ 
+ }, []);
+ 
+ console.log("Bookings state: ", bookings);
+ 
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('name', clinic.name);
     formData.append('address', clinic.address);
     formData.append('image', clinic.image);
+    formData.append('doctor', clinic.doctor);
+    formData.append('price', clinic.price);
 
     for (var pair of formData.entries()) {
         console.log(pair[0] + ', ' + pair[1]); 
     }
 
-    // Provide response variable
     try {
       const response = await axios.post('/api/clinics', formData, {
         headers: {
@@ -39,7 +61,7 @@ function Dashboard() {
       });
 
       if(response.data) {
-        setClinic({ name: '', address: '', image: '' });
+        setClinic({ name: '', address: '', image: '' , price: '', doctor: '' }); 
       }
     } catch (err) {
       console.error(err);
@@ -54,6 +76,8 @@ function Dashboard() {
   }
 
 
+
+
   return (
     <div>
       
@@ -65,7 +89,7 @@ function Dashboard() {
                         <div className="flex items-center justify-start">
 
                         <a href="#" className="text-xl font-bold flex items-center lg:ml-2.5">
-                        <span className="self-center whitespace-nowrap">Clinics page</span>
+                        <span className="self-center whitespace-nowrap"><Link to='/'>Clinics page</Link></span>
                         </a>
 
                         </div>
@@ -136,6 +160,14 @@ function Dashboard() {
                           <input type="text"  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " id="address" name="address"  aria-label="Enter the address" required value={clinic.address} onChange={handleChange} />
                           <label htmlFor="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 p peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Clinic Address</label>
                       </div>
+                      <div className=" relative z-0 w-full mb-5 group">
+                        <input type="text"  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " id="doctor" name="doctor"  aria-label="Enter the doctor's name" required value={clinic.doctor} onChange={handleChange} />
+                        <label htmlFor="floating_doctor" className="peer-focus:font-medium absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 p peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Doctor's Name</label>
+                     </div>
+                     <div className=" relative z-0 w-full mb-5 group">
+                        <input type="number"  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " id="price" name="price"  aria-label="Enter the price" required value={clinic.price} onChange={handleChange} />
+                        <label htmlFor="floating_price" className="peer-focus:font-medium absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 p peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Price</label>
+                     </div>
                       <div className="w-full mb-5 group">
                         <label className="block mb-2 text-sm font-medium text-gray-900 " htmlFor="user_avatar">Upload file</label>
                         <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " aria-describedby="user_avatar_help" id="user_avatar"   type="file" name="image" accept="image/*" onChange={handleImageChange} />
@@ -168,19 +200,39 @@ function Dashboard() {
                                           <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                              Date & Time
                                           </th>
+                                          <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                             Email
+                                          </th>
+                                          <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                             Phone Number
+                                          </th>
+                                          <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                             Message
+                                          </th>
                                        </tr>
                                     </thead>
                                     <tbody className="bg-white">
-                                    {bookings.map((booking) => (
-                                      <tr key={booking.id}>
-                                        <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                                          Booking from <span className="font-semibold">{booking.firstName} {booking.lastName}</span>
-                                        </td>
-                                        <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                          {booking.date}
-                                        </td>
-                                      </tr>
-                                    ))}
+                                    {bookings.map((booking, index) => {
+                                       return (
+                                          <tr key={index}>
+                                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+                                             Booking from <span className="font-semibold">{booking.firstName} {booking.lastName}</span>
+                                             </td>
+                                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                                             {new Date(booking.date).toLocaleDateString()}
+                                             </td>
+                                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+                                                <span className="font-normal">{booking.email}</span>
+                                             </td>
+                                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+                                                <span className="font-normal">{booking.phoneNumber}</span>
+                                             </td>
+                                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+                                                <span className="font-normal">{booking.message}</span>
+                                             </td>
+                                          </tr>
+                                       )
+                                       })}
                                     </tbody>
                                  </table>
                               </div>

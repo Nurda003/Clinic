@@ -39,9 +39,13 @@ app.get('/', (req, res) => {
 
 // Multer Middleware for file upload
 app.post('/api/clinics', upload.single('image'), (req, res) => {
+  const rating = Number((Math.random() * (5 - 3.5) + 3.5).toFixed(1))
   let newClinic = new Clinic({
-      name: req.body.name, // Add your field names
+      name: req.body.name, 
       address: req.body.address,
+      doctor: req.body.doctor,    
+      price: req.body.price, 
+      rating,
       image: { // store file data
           id: req.file.id,
           contentType: req.file.contentType,
@@ -116,6 +120,24 @@ app.post('/api/bookings', (req, res) => {
     .then(booking => res.json(booking))
     .catch(err => res.status(400).send('Error:' + err));
 });
+
+
+//booking router
+const BookingOperations = require('../server/middleware/BookingOperations');
+app.get('/api/bookings', async (req, res) => {
+  try {
+    // Query the database for all bookings
+    const bookings = await BookingOperations.getAll();
+  
+    // Send the results back to the client
+    return res.json(bookings);
+  } catch(err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while trying to retrieve bookings' });
+  }
+});
+
+
 
 app.use('/api', require('./routes/authRouter'));
 
