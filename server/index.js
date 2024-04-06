@@ -160,7 +160,7 @@ app.get('/api/bookings', async (req, res) => {
 
 app.use('/api', require('./routes/authRouter'));
 
-const URI = process.env.MONGODB_URL;
+const URI = process.env.MONGODB_URI;
 mongoose.connect(URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
