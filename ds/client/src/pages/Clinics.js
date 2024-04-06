@@ -126,7 +126,6 @@ function Clinics() {
 
         fetchClinics()
     }, [])
-    console.log(clinics)
 
     const [bookingForm, setBookingForm] = useState({
         firstName: '',

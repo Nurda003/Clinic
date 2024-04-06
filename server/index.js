@@ -23,7 +23,6 @@ app.use(cors(
 ));
 app.use(cookieParser());
 
-app.use('/api', require('./routes/authRouter'));
 
 
 const buildPath = path.resolve(__dirname, '../ds/client/build');
@@ -32,7 +31,6 @@ app.use(express.static(buildPath));
 
 app.get('*', (req, res) => {
   res.sendFile(
-    // Updated the path
     path.resolve(__dirname, '../ds/client/build/index.html'),
     function (err) {   
       if (err) {
@@ -41,6 +39,9 @@ app.get('*', (req, res) => {
     }
   );
 });
+
+app.use('/api', require('./routes/authRouter'));
+
 
 
 // create storage engine
