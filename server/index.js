@@ -46,10 +46,7 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 app.use(express.json());
-app.use(cors({
-    origin: 'https://dental-c-73083695c8b5.herokuapp.com/', // should be the address of your client-side application
-    credentials: true,
-}));
+app.use(cors());
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
