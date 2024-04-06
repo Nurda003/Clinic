@@ -14,7 +14,14 @@ const NodeCache = require( "node-cache" );
 const imageCache = new NodeCache();
 const Booking = require('../server/models/bookingModel');
 
-
+app.use(express.json());
+app.use(cors(
+  {
+    origin: 'https://dental-c-73083695c8b5.herokuapp.com/',
+    credentials: true
+  }
+));
+app.use(cookieParser());
 
 const buildPath = path.resolve(__dirname, '../ds/client/build');
 
@@ -45,9 +52,7 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage });
 
-app.use(express.json());
-app.use(cors());
-app.use(cookieParser());
+
 
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the server' });
