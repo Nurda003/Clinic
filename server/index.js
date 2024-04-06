@@ -13,7 +13,6 @@ const app = express();
 const NodeCache = require( "node-cache" );
 const imageCache = new NodeCache();
 const Booking = require('../server/models/bookingModel');
-const path = require('path');
 
 
 
