@@ -124,6 +124,7 @@ function Clinics() {
                 console.log("Clinics consol.log ")
                 console.log(clinics)
                 
+                
             } catch (error) {
                 console.error(error)
             }
