@@ -8,7 +8,7 @@ export const TYPES = {
 
 export const login = (data) => async (dispatch) => {
   try {
-    const res = await axios.post(`/api/login`, data);
+    const res = await axios.post('/api/login', data);
 
     if (res.status === 200 && res.data.user && res.data.access_token) {
       const { user, access_token, refresh_token } = res.data;
