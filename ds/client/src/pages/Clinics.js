@@ -191,7 +191,7 @@ function Clinics() {
         <div className="flex flex-col w-11/12 justify-center items-center">
 
 
-        {Array.isArray(clinics) && clinics.map(clinic => ( 
+        {clinics.map(clinic => ( 
                 <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg">
                     {clinic.image && 
