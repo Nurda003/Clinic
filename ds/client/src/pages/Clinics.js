@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import NavBar from '../comps/NavBar'
 import Footer from '../comps/Footer'
-import cli1 from '../img/clinics1.png'
 import heart from '../img/heart.png'
-import cli2 from '../img/clinics2.png'
-import cli3 from '../img/clinics3.png'
 
 import Datepicker from "tailwind-datepicker-react"
 
@@ -114,11 +111,11 @@ function Clinics() {
     function addClinic(newClinic) {
         setClinics([...clinics, newClinic]);
     }
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     useEffect(() => {
         const fetchClinics = async () => {
             try {
-                const response = await axios.get('https://dental-c-73083695c8b5.herokuapp.com/api/clinics');
+                const response = await axios.get(`${apiUrl}/api/clinics`);
                 setClinics(response.data)
                 console.log(response.data);
                 console.log("Clinics consol.log ")
