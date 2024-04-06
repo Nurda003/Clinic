@@ -17,7 +17,7 @@ const Booking = require('../server/models/bookingModel');
 app.use(express.json());
 app.use(cors(
   {
-    origin: 'https://dental-c-73083695c8b5.herokuapp.com/',
+    origin: 'https://dental-c-73083695c8b5.herokuapp.com',
     credentials: true
   }
 ));
