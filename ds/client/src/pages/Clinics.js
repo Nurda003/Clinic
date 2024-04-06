@@ -3,7 +3,6 @@ import axios from 'axios';
 import NavBar from '../comps/NavBar'
 import Footer from '../comps/Footer'
 import heart from '../img/heart.png'
-require('dotenv').config();
 
 import Datepicker from "tailwind-datepicker-react"
 
@@ -117,9 +116,6 @@ function Clinics() {
             try {
                 const response = await axios.get(`https://dental-c-73083695c8b5.herokuapp.com/api/clinics`);
                 setClinics(response.data)
-                console.log(response.data);
-                console.log("Clinics consol.log ")
-                console.log(clinics)
                 
                 
             } catch (error) {
