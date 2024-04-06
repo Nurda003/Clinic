@@ -3,6 +3,7 @@ import axios from 'axios';
 import NavBar from '../comps/NavBar'
 import Footer from '../comps/Footer'
 import heart from '../img/heart.png'
+require('dotenv').config();
 
 import Datepicker from "tailwind-datepicker-react"
 
