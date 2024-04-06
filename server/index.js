@@ -23,6 +23,9 @@ app.use(cors(
 ));
 app.use(cookieParser());
 
+app.use('/api', require('./routes/authRouter'));
+
+
 const buildPath = path.resolve(__dirname, '../ds/client/build');
 
 app.use(express.static(buildPath));
@@ -160,7 +163,6 @@ app.get('/api/bookings', async (req, res) => {
 
 
 
-app.use('/api', require('./routes/authRouter'));
 
 const URI = process.env.MONGODB_URI;
 mongoose.connect(URI, {
