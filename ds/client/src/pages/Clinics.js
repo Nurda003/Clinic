@@ -112,7 +112,6 @@ function Clinics() {
     function addClinic(newClinic) {
         setClinics([...clinics, newClinic]);
     }
-    const apiUrl = process.env.REACT_APP_API_URL;
     useEffect(() => {
         const fetchClinics = async () => {
             try {
@@ -196,7 +195,7 @@ function Clinics() {
         <div className="flex flex-col w-11/12 justify-center items-center">
 
 
-            {clinics.map(clinic => ( 
+        {Array.isArray(clinics) && clinics.map(clinic => ( 
                 <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg">
                     {clinic.image && 
