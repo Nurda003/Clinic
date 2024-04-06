@@ -13,10 +13,30 @@ const app = express();
 const NodeCache = require( "node-cache" );
 const imageCache = new NodeCache();
 const Booking = require('../server/models/bookingModel');
+const path = require('path');
+
+
+
+const buildPath = path.resolve(__dirname, '../ds/client/build');
+
+app.use(express.static(buildPath));
+
+app.get('*', (req, res) => {
+  res.sendFile(
+    // Updated the path
+    path.resolve(__dirname, '../ds/client/build/index.html'),
+    function (err) {   
+      if (err) {
+        res.status(500).send(err)
+      }
+    }
+  );
+});
+
 
 // create storage engine
 const storage = new GridFsStorage({
-  url: process.env.MONGODB_URL,
+  url: process.env.MONGODB_URI,
   file: (req, file) => {
     return {
       filename: `${Date.now()}${path.extname(file.originalname)}`
