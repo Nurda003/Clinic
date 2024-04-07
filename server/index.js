@@ -29,16 +29,7 @@ const buildPath = path.resolve(__dirname, '../ds/client/build');
 
 app.use(express.static(buildPath));
 
-app.get('/*', (req, res) => {
-  res.sendFile(
-    path.resolve(__dirname, '../ds/client/build/index.html'),
-    function (err) {   
-      if (err) {
-        res.status(500).send(err)
-      }
-    }
-  );
-});
+
 
 app.use('/api', require('./routes/authRouter'));
 
@@ -162,7 +153,16 @@ app.get('/api/bookings', async (req, res) => {
   }
 });
 
-
+app.get('/*', (req, res) => {
+  res.sendFile(
+    path.resolve(__dirname, '../ds/client/build/index.html'),
+    function (err) {   
+      if (err) {
+        res.status(500).send(err)
+      }
+    }
+  );
+});
 
 
 const URI = process.env.MONGODB_URI;
