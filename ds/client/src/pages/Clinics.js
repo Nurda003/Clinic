@@ -116,8 +116,9 @@ function Clinics() {
             try {
                 const response = await axios.get(`https://dental-w-032fe80aafac.herokuapp.com/api/clinics`);
                 setClinics(response.data)
-                
-                
+                console.log(response.data);
+                console.log(response.data.clinics); 
+
             } catch (error) {
                 console.error(error)
             }
