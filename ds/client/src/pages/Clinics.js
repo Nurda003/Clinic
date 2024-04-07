@@ -107,6 +107,7 @@ function Clinics() {
       };
 
     const [clinics, setClinics] = useState([]);
+    console.log("just clincs before get: " + clinics);
 
     function addClinic(newClinic) {
         setClinics([...clinics, newClinic]);
@@ -117,7 +118,7 @@ function Clinics() {
                 const response = await axios.get(`https://dental-w-032fe80aafac.herokuapp.com/api/clinics`);
                 setClinics(response.data)
                 console.log(response.data);
-                console.log(response.data.clinics); 
+                console.log(response); 
 
             } catch (error) {
                 console.error(error)
@@ -127,6 +128,8 @@ function Clinics() {
 
         fetchClinics()
     }, [])
+
+    console.log('Clinics after get: '+ clinics);
 
     const [bookingForm, setBookingForm] = useState({
         firstName: '',
