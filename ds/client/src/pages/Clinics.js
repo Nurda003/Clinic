@@ -197,9 +197,11 @@ function Clinics() {
         { (clinics || []).map(clinic => (
                 <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg">
-                    {clinic.image && 
+                    
+                    {console.log(clinic)
+                        (clinic.image && clinic.image.filename &&
                         <img src={`https://dental-c-73083695c8b5.herokuapp.com/api/image/${clinic.image.filename}`} alt={clinic.name} />
-                    }
+                    )}
                     </div>
                 <div className="w-full p-3 bg-white">
                     <div className="flex w-full justify-between ">
