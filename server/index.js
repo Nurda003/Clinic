@@ -153,7 +153,7 @@ app.get('/api/bookings', async (req, res) => {
   }
 });
 
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(
     path.resolve(__dirname, '../ds/client/build/index.html'),
     function (err) {   
@@ -172,7 +172,7 @@ mongoose.connect(URI, {
 })
 .then(() => {
     console.log('Connected to MongoDB');
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT || 5000;
     app.listen(port, () => {
         console.log('Server is running on port', port);
     });
