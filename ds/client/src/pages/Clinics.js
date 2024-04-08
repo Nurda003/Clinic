@@ -110,24 +110,20 @@ function Clinics() {
     console.log("just clincs before get: " + clinics);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL || 'https://dental-w-032fe80aafac.herokuapp.com'
-    
+
     function addClinic(newClinic) {
         setClinics([...clinics, newClinic]);
     }
     useEffect(() => {
         const fetchClinics = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/clinics`);
+                const response = await axios.get('/api/clinics');
                 setClinics(response.data)
-                console.log(response.data);
-                console.log(response); 
 
             } catch (error) {
                 console.error(error)
             }
         }
-        
-
         fetchClinics()
     }, [])
 
@@ -196,7 +192,7 @@ function Clinics() {
         <div className="flex flex-col w-11/12 justify-center items-center">
 
 
-        { (clinics || []).map(clinic => (
+        { clinics.map(clinic => (
                 <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg">
                     
