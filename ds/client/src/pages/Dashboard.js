@@ -54,11 +54,7 @@ function Dashboard() {
     }
 
     try {
-      const response = await axios.post('/api/clinics', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-      });
+      const response = await axios.post("/api/clinics", formData,);
 
       if(response.data) {
         setClinic({ name: '', address: '', image: '' , price: '', doctor: '' }); 

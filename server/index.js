@@ -26,16 +26,9 @@ app.use('/api', require('./routes/authRouter'));
 
 const client = new MongoClient(process.env.MONGODB_URI);
 
-
-
 const buildPath = path.resolve(__dirname, '../ds/client/build');
 
 app.use(express.static(buildPath));
-
-
-
-
-
 
 // create storage engine
 const storage = new GridFsStorage({
@@ -48,8 +41,6 @@ const storage = new GridFsStorage({
 });
 
 const upload = multer({ storage });
-
-
 
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the server' });
