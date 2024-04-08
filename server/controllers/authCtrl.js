@@ -17,21 +17,21 @@ const authCtrl = {
     createClinics : async (req, res) => {
         try {
             const {name, address, medicalWorker} = req.body;
-
-        if (!name || !address || !medicalWorker) {  // Validate that all expected fields exist
-            return res.status(400).send('Bad request: name, medicalWorker, and address are required');
-        }
-
-        const image = req.file ? req.file.filename : null;
-
-        const newClinic = new Clinic({name, medicalWorker, address, image});
-            
-          const savedClinic = await newClinic.save();
     
-          res.json(savedClinic);
+            if (!name || !address || !medicalWorker) {  
+                return res.status(400).json({message: 'Bad request: name, medicalWorker, and address are required'});
+            }
+    
+            const image = req.file ? req.file.filename : null;
+    
+            const newClinic = new Clinic({name, medicalWorker, address, image});
+    
+            const savedClinic = await newClinic.save();
+    
+            res.json(savedClinic);
         } catch (error) {
           console.error(error);
-          res.status(500).send();
+          res.status(500).json({message: 'Server error. Please try again later.'});
         }
       },
 
