@@ -116,7 +116,7 @@ function Clinics() {
     useEffect(() => {
         const fetchClinics = async () => {
             try {
-                const response = await axios.get('/api/clinics');
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/clinics`);
                 setClinics(response.data)
                 console.log(response.data);
                 console.log(response); 
