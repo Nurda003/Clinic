@@ -200,7 +200,7 @@ function Clinics() {
                     
                     {console.log(clinic)
                         (clinic.image && clinic.image.filename &&
-                        <img src={`https://dental-c-73083695c8b5.herokuapp.com/api/image/${clinic.image.filename}`} alt={clinic.name} />
+                        <img src={`/api/image/${clinic.image.filename}`} alt={clinic.name} />
                     )}
                     </div>
                 <div className="w-full p-3 bg-white">
