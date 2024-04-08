@@ -22,6 +22,8 @@ app.use(cors(
   }
 ));
 app.use(cookieParser());
+app.use('/api', require('./routes/authRouter'));
+
 const client = new MongoClient(process.env.MONGODB_URI);
 
 
@@ -32,7 +34,6 @@ app.use(express.static(buildPath));
 
 
 
-app.use('/api', require('./routes/authRouter'));
 
 
 
