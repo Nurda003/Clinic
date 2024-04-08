@@ -12,21 +12,16 @@ const { GridFSBucket } = require("mongodb");
 const app = express();
 const NodeCache = require( "node-cache" );
 const imageCache = new NodeCache();
+const buildPath = path.resolve(__dirname, '../ds/client/build');
 const Booking = require('../server/models/bookingModel');
 
 app.use(express.json());
-app.use(cors(
-  {
-    origin: 'https://dental-w-032fe80aafac.herokuapp.com',
-    credentials: true
-  }
-));
+app.use(cors());
 app.use(cookieParser());
 app.use('/api', require('./routes/authRouter'));
 
 const client = new MongoClient(process.env.MONGODB_URI);
 
-const buildPath = path.resolve(__dirname, '../ds/client/build');
 
 app.use(express.static(buildPath));
 
