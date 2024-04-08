@@ -109,10 +109,6 @@ function Clinics() {
     const [clinics, setClinics] = useState([]);
     console.log("just clincs before get: " + clinics);
 
-    axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL || 'https://dental-w-032fe80aafac.herokuapp.com'
-    console.log('axios default baseURL:', axios.defaults.baseURL);
-    console.log('REACT_APP_API_BASE_URL:', process.env.REACT_APP_API_BASE_URL);
-
     function addClinic(newClinic) {
         setClinics([...clinics, newClinic]);
     }
