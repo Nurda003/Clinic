@@ -22,6 +22,7 @@ app.use(cors(
   }
 ));
 app.use(cookieParser());
+const client = new MongoClient(process.env.MONGODB_URI);
 
 
 
@@ -87,7 +88,6 @@ app.get('/api/image/:filename', async (req, res) => {
     return;
   }
 
-  const client = new MongoClient(process.env.MONGODB_URL);
 
   try {
       await client.connect();

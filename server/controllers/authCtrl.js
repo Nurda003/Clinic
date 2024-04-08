@@ -10,7 +10,7 @@ const authCtrl = {
             res.json(clinics);
         } catch (error) {
             console.error(error);
-            res.status(500).send();
+            res.status(500).send('An error occurred while fetching the clinics.');
         }
     },
 
@@ -24,7 +24,7 @@ const authCtrl = {
 
         const image = req.file ? req.file.filename : null;
 
-        const newClinic = new Clinics({name, medicalWorker, address, image});
+        const newClinic = new Clinic({name, medicalWorker, address, image});
             
           const savedClinic = await newClinic.save();
     
