@@ -107,7 +107,7 @@ function Clinics() {
       useEffect(() => {
           const fetchClinics = async () => {
               try {
-                  const response = await axios.get(`${BASE_URL}/api/clinics`);
+                  const response = await axios.get(`https://dental-w-032fe80aafac.herokuapp.com/api/clinics`);
                   setClinics(response.data)
   
               } catch (error) {
