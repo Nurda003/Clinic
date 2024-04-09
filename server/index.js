@@ -55,11 +55,11 @@ app.get('/api/clinics', async (req, res) => {
   }
 });
 
-app.post('/api/clinics', upload.none(), (req, res) => {
+app.post('/api/clinics', upload.single('image'), (req, res) => {
   const newClinic = new Clinic({
     name: req.body.name,
     address: req.body.address,
-    image: req.body.image,
+    image: req.file.filename,
     doctor: req.body.doctor,
     price: req.body.price,
   });
