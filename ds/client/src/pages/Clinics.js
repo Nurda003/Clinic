@@ -191,7 +191,7 @@ function Clinics() {
                 <div className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg h-heroimg">
                     { clinic?.image?.filename
-                        ? <img src={clinic.image.filename} alt={clinic.name} />
+                        ? <img src={`api/image/${clinic.image.filename}`} alt={clinic.name} />
                         : <img src={defa} alt="Default" />
                     }
                     </div>
