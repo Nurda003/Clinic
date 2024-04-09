@@ -130,7 +130,6 @@ function Clinics() {
       };
 
    
-    console.log('Clinics after get: '+ clinics);
 
     const [bookingForm, setBookingForm] = useState({
         firstName: '',
@@ -198,7 +197,6 @@ function Clinics() {
         {clinics.map((clinic) => (
                 <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg">
-                    {console.log(clinic)}
                     {
                         (clinic.image && clinic.image.filename &&
                         <img src={`https://dental-f-334e4107426f.herokuapp.com/api/image/${clinic.image.filename}`} alt={clinic.name} />
