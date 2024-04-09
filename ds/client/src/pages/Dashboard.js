@@ -30,7 +30,7 @@ function Dashboard() {
    formData.append('doctor', clinic.doctor);
    formData.append('price', clinic.price);
    clinic.services.forEach(service => {
-      formData.append('services', service);
+      formData.append('services', clinic.services);
     });
 
    for (var pair of formData.entries()) {
