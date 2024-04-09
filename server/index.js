@@ -55,12 +55,14 @@ app.get('/api/clinics', async (req, res) => {
 });
 
 app.post('/api/clinics', upload.single('image'), (req, res) => {
+  const rating = Number((Math.random() * (5 - 3.5) + 3.5).toFixed(1))
   const newClinic = new Clinic({
     name: req.body.name,
     address: req.body.address,
     image: req.file.filename,
     doctor: req.body.doctor,
     price: req.body.price,
+    rating,
   });
 
   newClinic.save()
