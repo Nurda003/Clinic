@@ -55,9 +55,7 @@ app.get('/api/clinics', async (req, res) => {
   }
 });
 
-app.post('/api/clinics', (req, res) => {
-  /* just ensure all your keys match exactly with
-  the keys in req.body, and are spelt correctly */
+app.post('/api/clinics', upload.none(), (req, res) => {
   const newClinic = new Clinic({
     name: req.body.name,
     address: req.body.address,
