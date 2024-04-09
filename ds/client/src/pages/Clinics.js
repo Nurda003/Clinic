@@ -103,6 +103,7 @@ function Clinics() {
       }
 
       const BASE_URL = process.env.REACT_APP_API_BASE_URL ;
+      console.log(BASE_URL)
 
       useEffect(() => {
           const fetchClinics = async () => {
