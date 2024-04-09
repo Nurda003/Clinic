@@ -188,14 +188,14 @@ function Dashboard() {
                       <div className="w-full mb-5 group">
                       <label for="services">Services:</label>
                         <select multiple id="services" name="services[]" onChange={handleSelectChange}>
-                           <option value="braces">Braces and Orthodontic Treatments</option>
-                           <option value="cleanings">Dental Cleanings and Check-ups</option>
-                           <option value="whitening">Teeth Whitening Services</option>
-                           <option value="cosmetic">Cosmetic Dentistry</option>
-                           <option value="restorative">Restorative Dentistry</option>
-                           <option value="gum">Periodontal (Gum) Care</option>
-                           <option value="oral">Oral Surgery</option>
-                           <option value="emergency">Emergency Dental Care</option>
+                           <option value="Braces and Orthodontic Treatments">Braces and Orthodontic Treatments</option>
+                           <option value="Dental Cleanings and Check-ups">Dental Cleanings and Check-ups</option>
+                           <option value="Teeth Whitening Services">Teeth Whitening Services</option>
+                           <option value="Cosmetic Dentistry">Cosmetic Dentistry</option>
+                           <option value="Restorative Dentistry">Restorative Dentistry</option>
+                           <option value="Periodontal (Gum) Care">Periodontal (Gum) Care</option>
+                           <option value="Oral Surgery">Oral Surgery</option>
+                           <option value="Emergency Dental Care">Emergency Dental Care</option>
                         </select>
                       </div>
 
