@@ -120,6 +120,7 @@ function Clinics() {
         axios.post("/api/bookings", bookingForm)
           .then((response) => {
             console.log(response);
+            setBookingForm({/* initial form state */});
           })
           .catch((error) => {
             console.log(error);
