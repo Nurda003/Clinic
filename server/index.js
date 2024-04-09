@@ -18,7 +18,6 @@ const Booking = require('../server/models/bookingModel');
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-app.use('/api', require('./routes/authRouter'));
 
 const client = new MongoClient(process.env.MONGODB_URI);
 
@@ -140,6 +139,9 @@ app.get('/api/bookings', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while trying to retrieve bookings' });
   }
 });
+
+const authRouter = require('./routes/authRouter');
+app.use('/api', authRouter);
 
 app.get('*', (req, res) => {
   res.sendFile(
