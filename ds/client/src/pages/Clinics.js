@@ -190,10 +190,10 @@ function Clinics() {
             
                 <div className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg h-heroimg">
-                    { console.log(clinic.image.filename)
-                        (clinic.image && clinic.image.filename &&
-                        <img src={clinic.image && clinic.image.filename ? clinic.image.filename : defa}  alt={clinic.name} />
-                    )}
+                    { clinic?.image?.filename
+                        ? <img src={clinic.image.filename} alt={clinic.name} />
+                        : <img src={defa} alt="Default" />
+                    }
                     </div>
                 <div className="w-full p-3 bg-white">
                     <div className="flex w-full justify-between ">
