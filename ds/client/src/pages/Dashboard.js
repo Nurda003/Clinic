@@ -38,9 +38,11 @@ function Dashboard() {
      const response = await axios.post('/api/clinics', formData, {
        headers: {
            'Content-Type': 'multipart/form-data'
-       }
-     });
-
+       },
+       
+     }
+   );
+      console.log('Received a POST request for /api/clinics');
      if(response.data) {
        setClinic({ name: '', address: '', image: '' , price: '', doctor: '' }); 
      }
