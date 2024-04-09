@@ -176,6 +176,20 @@ function Dashboard() {
                         <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none " aria-describedby="user_avatar_help" id="user_avatar"   type="file" name="image" accept="image/*" onChange={handleImageChange} />
                         <div className="mt-1 text-sm text-gray-500 " id="user_avatar_help">A profile picture is useful to confirm your account</div>
                       </div>
+                      <div className="w-full mb-5 group">
+                      <label for="services">Services:</label>
+                        <select multiple id="services" name="services[]">
+                           <option value="braces">Braces and Orthodontic Treatments</option>
+                           <option value="cleanings">Dental Cleanings and Check-ups</option>
+                           <option value="whitening">Teeth Whitening Services</option>
+                           <option value="cosmetic">Cosmetic Dentistry</option>
+                           <option value="restorative">Restorative Dentistry</option>
+                           <option value="gum">Periodontal (Gum) Care</option>
+                           <option value="oral">Oral Surgery</option>
+                           <option value="emergency">Emergency Dental Care</option>
+                        </select>
+                      </div>
+
                       <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Submit</button>
                     </form>
                   </div>

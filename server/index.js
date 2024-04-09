@@ -67,6 +67,7 @@ app.post('/api/clinics', upload.single('image'), (req, res) => {
     doctor: req.body.doctor,
     price: req.body.price,
     rating,
+    services: req.body.services,
   });
 
   newClinic.save()

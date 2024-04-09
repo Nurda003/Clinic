@@ -32,7 +32,8 @@ const clinicSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
-    }
+    },
+    services: [String]
 }, { timestamps: true });
 
 const Clinic = mongoose.model('Clinic', clinicSchema);
