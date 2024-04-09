@@ -94,6 +94,27 @@ function Clinics() {
           return {...prevFormState, [name]: value};
         });
       };
+
+      const [clinics, setClinics] = useState([]);
+      console.log("just clincs before get: " + clinics);
+  
+      function addClinic(newClinic) {
+          setClinics([...clinics, newClinic]);
+      }
+      useEffect(() => {
+          const fetchClinics = async () => {
+              try {
+                  const response = await axios.get('https://dental-w-032fe80aafac.herokuapp.com/api/clinics');
+                  setClinics(response.data)
+  
+              } catch (error) {
+                  console.error(error)
+              }
+          }
+          fetchClinics()
+      }, [])
+  
+
     const handleBookingFormSubmit = (e) => {
         e.preventDefault();
         console.log(bookingForm);
@@ -106,25 +127,7 @@ function Clinics() {
           });
       };
 
-    const [clinics, setClinics] = useState([]);
-    console.log("just clincs before get: " + clinics);
-
-    function addClinic(newClinic) {
-        setClinics([...clinics, newClinic]);
-    }
-    useEffect(() => {
-        const fetchClinics = async () => {
-            try {
-                const response = await axios.get('https://dental-w-032fe80aafac.herokuapp.com/api/clinics');
-                setClinics(response.data)
-
-            } catch (error) {
-                console.error(error)
-            }
-        }
-        fetchClinics()
-    }, [])
-
+   
     console.log('Clinics after get: '+ clinics);
 
     const [bookingForm, setBookingForm] = useState({
@@ -196,7 +199,7 @@ function Clinics() {
                     
                     {console.log(clinic)
                         (clinic.image && clinic.image.filename &&
-                        <img src={`/api/image/${clinic.image.filename}`} alt={clinic.name} />
+                        <img src={`https://dental-w-032fe80aafac.herokuapp.com/api/image/${clinic.image.filename}`} alt={clinic.name} />
                     )}
                     </div>
                 <div className="w-full p-3 bg-white">
