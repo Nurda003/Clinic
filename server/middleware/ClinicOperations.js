@@ -1,4 +1,4 @@
-const Clinic = require('../server/models/clinicsModel');
+const Clinic = require('../models/clinicsModel');
 
 const getAll = async () => {
   try {
