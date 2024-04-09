@@ -46,7 +46,7 @@ app.get('/api/clinics', async (req, res) => {
   try {
     // Query the database for all clinics
     const clinics = await ClinicOperations.getAll();
-  
+    clinics = clinics.reverse();
     // Send the results back to the client
     return res.json(clinics);
   } catch(err) {
