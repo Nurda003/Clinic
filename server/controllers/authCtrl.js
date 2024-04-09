@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
  
 const Clinic = require('../models/clinicsModel')
 const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
+const { GridFsStorage } = require('multer-gridfs-storage');
 
 // Create storage engine for images using GridFS
 const storage = new GridFsStorage({
