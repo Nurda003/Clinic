@@ -107,7 +107,7 @@ function Clinics() {
 
       useEffect(() => {
         console.log(process.env.REACT_APP_API_BASE_URL)
-        axios.get(`/clinics`)
+        axios.get(`/asdasdasd`)
         .then((response) => {
             setClinics(response.data);
         }).catch((error) => {
