@@ -130,6 +130,7 @@ function Clinics() {
       };
 
    
+    console.log('Clinics after get: '+ clinics);
 
     const [bookingForm, setBookingForm] = useState({
         firstName: '',
