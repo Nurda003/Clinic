@@ -102,11 +102,8 @@ function Clinics() {
           setClinics([...clinics, newClinic]);
       }
 
-      const BASE_URL = process.env.REACT_APP_API_BASE_URL ;
-      console.log(BASE_URL)
 
       useEffect(() => {
-        console.log(process.env.REACT_APP_API_BASE_URL)
         axios.get(`/asdasdasd`)
         .then((response) => {
             setClinics(response.data);
