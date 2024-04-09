@@ -203,13 +203,14 @@ function Clinics() {
                     <h1 className='text-2xl font-bold text-bigtext'>{clinic.name}</h1>
                     <p className='text-base text-smalltext'>{clinic.address}</p>
                     {/*... rest of your code ... */}
-                    <div className="flex gap-4">
+                    <div className="flex flex-col gap-4">
+                        <p className='font-bold text-bigtext'>What we do? </p>
                         <div className="flex items-center">
                             {clinic.services && clinic.services.map(service => (
-                                <p key={service}>{service}</p>
+                                <p className='font-semibold' key={service}>{service}</p>
                             ))}
                         </div>
-                        <p className='font-bold text-bigtext'>110+ Reviews</p>
+                        
 
 
                     </div>
