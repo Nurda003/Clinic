@@ -106,18 +106,14 @@ function Clinics() {
       console.log(BASE_URL)
 
       useEffect(() => {
-          const fetchClinics = async () => {
-              try {
-                  const response = await axios.get(`https://dental-w-032fe80aafac.herokuapp.com/api/clinics`);
-                  setClinics(response.data)
-  
-              } catch (error) {
-                  console.error(error)
-              }
-          }
-          fetchClinics()
-      }, [])
-  
+        axios.get(`${BASE_URL}/api/clinics`)
+        .then((response) => {
+            setClinics(response.data);
+        }).catch((error) => {
+            console.error("Error fetching ", error);
+            alert("Failed to fetch clinics data");
+        });
+    }, []);
 
     const handleBookingFormSubmit = (e) => {
         e.preventDefault();
