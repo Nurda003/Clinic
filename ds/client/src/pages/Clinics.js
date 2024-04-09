@@ -101,10 +101,13 @@ function Clinics() {
       function addClinic(newClinic) {
           setClinics([...clinics, newClinic]);
       }
+
+      const BASE_URL = process.env.REACT_APP_API_BASE_URL ;
+
       useEffect(() => {
           const fetchClinics = async () => {
               try {
-                  const response = await axios.get('https://dental-w-032fe80aafac.herokuapp.com/api/clinics');
+                  const response = await axios.get(`${BASE_URL}/api/clinics`);
                   setClinics(response.data)
   
               } catch (error) {
