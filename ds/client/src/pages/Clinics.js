@@ -191,7 +191,7 @@ function Clinics() {
 
         {clinics.map((clinic) => (
                 <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
-                    <div className="w-heroimg">
+                    <div className="w-heroimg h-heroimg">
                     {
                         (clinic.image && clinic.image.filename &&
                         <img src={`/api/image/${clinic.image}`} alt={clinic.name} />
