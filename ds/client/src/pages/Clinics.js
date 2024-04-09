@@ -102,22 +102,21 @@ function Clinics() {
           setClinics([...clinics, newClinic]);
       }
 
-
       useEffect(() => {
         const fetchClinics = async () => {
-            try {   
-              // Log the url being used for debugging
-              console.log("Fetching data from /api/clinics");
-    
-              const response = await axios.get('/api/clinics');
+            try {
+              const url = process.env.REACT_APP_API_BASE_URL + '/api/clinics';
+              console.log("Using URL for API call: ", url);
+              const response = await axios.get(url);
+              console.log("Clinics ", response.data);
               setClinics(response.data);
             } catch (err) {
               console.error("Error fetching clinics: ", err);
             }
         }
-        
         fetchClinics();
     }, []);
+    
     const handleBookingFormSubmit = (e) => {
         e.preventDefault();
         axios.post("/api/bookings", bookingForm)
