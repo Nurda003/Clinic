@@ -161,12 +161,6 @@ const handleSort = (event) => {
     case 'priceLow':
       sortedClinics = [...clinics].sort((a, b) => a.price - b.price);
       break;
-    case 'serviceAtoZ':
-      sortedClinics = [...clinics].sort((a, b) => a.services[0].localeCompare(b.services[0]));
-      break;
-    case 'serviceZtoA':
-      sortedClinics = [...clinics].sort((a, b) => b.services[0].localeCompare(a.services[0]));
-      break;
     default:
       sortedClinics = clinics;
       break;
@@ -188,20 +182,17 @@ const handleSort = (event) => {
                     </div>
                     
                     <div className="flex items-center gap-10">
-                        <div className="w-411">
-                            
-                        <select value={sort} onChange={handleSort}>
-                            <option value="">Sort By</option>
-                            <option value="priceLow">Price - Low to High</option>
-                            <option value="priceHigh">Price - High to Low</option>
-                        </select>
-                        </div>
-                        <button id="dropdown-button" data-dropdown-toggle="dropdown" className="h-12 w-60 flex justify-between items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-white border-2 border-gray-400 rounded-lg" type="button">
-                            ...
+
+                        <div id="dropdown-button" data-dropdown-toggle="dropdown" className="h-12 w-60 flex justify-between items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-white border-2 border-gray-400 rounded-lg" type="button">
+                            <select value={sort} onChange={handleSort}>
+                                <option value="">Sort By</option>
+                                <option value="priceLow">Price - Low to High</option>
+                                <option value="priceHigh">Price - High to Low</option>
+                            </select>
                             <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                             </svg>
-                        </button>
+                        </div>
                         
                     </div>
                 </div>
