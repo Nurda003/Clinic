@@ -19,6 +19,9 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 app.use('/api', require('./routes/authRouter'));
+app.use((req, res, next) => {
+  res.status(404).send('404 - Not Found');
+});
 
 const client = new MongoClient(process.env.MONGODB_URI);
 
