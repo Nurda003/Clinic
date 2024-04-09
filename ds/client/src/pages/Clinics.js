@@ -4,6 +4,8 @@ import NavBar from '../comps/NavBar'
 import Footer from '../comps/Footer'
 import heart from '../img/heart.png'
 
+import defa from '../img/register.png'
+
 import Datepicker from "tailwind-datepicker-react"
 
 function Clinics() {
@@ -190,7 +192,7 @@ function Clinics() {
                     <div className="w-heroimg h-heroimg">
                     { console.log(clinic.image.filename)
                         (clinic.image && clinic.image.filename &&
-                        <img src={`/api/image/${clinic.image.filename}`} alt={clinic.name} />
+                        <img src={clinic.image && clinic.image.filename ? clinic.image.filename : defa}  alt={clinic.name} />
                     )}
                     </div>
                 <div className="w-full p-3 bg-white">
