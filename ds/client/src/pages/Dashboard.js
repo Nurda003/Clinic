@@ -20,37 +20,43 @@ function Dashboard() {
   const handleChange = (e) => {
     setClinic({...clinic, [e.target.name]: e.target.value });
   }
+  const handleSelectChange = (event) => {
+   let services = Array.from(event.target.selectedOptions, option => option.value);
+   setClinic(prevState => ({ ...prevState, services }));
+ }
 
-  const handleFormSubmit = async (e) => {
+ const handleFormSubmit = async (e) => {
    e.preventDefault();
    const formData = new FormData();
+   
    formData.append('name', clinic.name);
    formData.append('address', clinic.address);
    formData.append('image', clinic.image);
    formData.append('doctor', clinic.doctor);
    formData.append('price', clinic.price);
+   
    clinic.services.forEach(service => {
-      formData.append('services', clinic.services);
-    });
-
+     formData.append('services', service); // Append each service
+   });
+   
    for (var pair of formData.entries()) {
-       console.log(pair[0] + ', ' + pair[1]); 
+     console.log(pair[0] +', '+ pair[1]);
    }
-
+   
    try {
      const response = await axios.post('/api/clinics', formData, {
        headers: {
-           'Content-Type': 'multipart/form-data'
+         'Content-Type': 'multipart/form-data'
        },
-       
-     }
-   );
-      console.log('Received a POST request for /api/clinics');
+     });
+     
+     console.log('Received a POST request for /api/clinics');
+     
      if(response.data) {
-       setClinic({ name: '', address: '', image: '' , price: '', doctor: '' }); 
+       setClinic({ name: '', address: '', image: '' , price: '', doctor: '', image: '' ,  services: [] });
      }
    } catch (err) {
-     console.error(err);
+       console.error(err);
    }
    
  }
@@ -181,7 +187,7 @@ function Dashboard() {
                       </div>
                       <div className="w-full mb-5 group">
                       <label for="services">Services:</label>
-                        <select multiple id="services" name="services[]">
+                        <select multiple id="services" name="services[]" onChange={handleSelectChange}>
                            <option value="braces">Braces and Orthodontic Treatments</option>
                            <option value="cleanings">Dental Cleanings and Check-ups</option>
                            <option value="whitening">Teeth Whitening Services</option>
