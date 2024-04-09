@@ -104,17 +104,20 @@ function Clinics() {
 
 
       useEffect(() => {
-        // Fetch clinics data from the API
-        axios.get('https://dental-f-334e4107426f.herokuapp.com/api/clinics')
-          .then((response) => {
-            setClinics(response.data);
-          })
-          .catch((error) => {
-            console.error('Error fetching clinics:', error);
-            // Handle error, e.g., show an error message to the user
-          });
-      }, []);
 
+        const fetchClinics = async () => {
+          try {
+            const response = await axios.get('/api/clinics');
+            console.log("Clinics ", response.data);
+            setClinics(response.data);
+          } catch (err) {
+            console.error("Error fetching clinics: ", err);
+          }
+        }
+        
+        fetchClinics();
+        
+      }, []);
     const handleBookingFormSubmit = (e) => {
         e.preventDefault();
         axios.post("/api/bookings", bookingForm)

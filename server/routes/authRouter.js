@@ -11,9 +11,7 @@ router.post('/login', authCtrl.login);
 router.post('/logout', authCtrl.logout);
 router.post('/refresh_token', authCtrl.generateAccessToken);
 router.post('/register-medical-worker', authCtrl.registerMedicalWorker);
-router.post('/clinics', authCtrl.uploadClinicImage, authCtrl.createClinics);
 
-router.get('/clinics', authCtrl.getClinics);
 router.get('/dashboard', authCtrl.generateAccessToken, isMedicalWorker, dashboardCtrl.getDashboard);
 
 module.exports = router;

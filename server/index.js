@@ -40,6 +40,37 @@ const upload = multer({ storage });
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the server' });
 });
+const ClinicOperations = require('../server/middleware/ClinicOperations');
+
+app.get('/api/clinics', async (req, res) => {
+  try {
+    // Query the database for all clinics
+    const clinics = await ClinicOperations.getAll();
+  
+    // Send the results back to the client
+    return res.json(clinics);
+  } catch(err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while trying to retrieve clinics' });
+  }
+});
+
+app.post('/api/clinics', (req, res) => {
+  /* just ensure all your keys match exactly with
+  the keys in req.body, and are spelt correctly */
+  const newClinic = new Clinic({
+    name: req.body.name,
+    address: req.body.address,
+    image: req.body.image,
+    doctor: req.body.doctor,
+    price: req.body.price,
+  });
+
+  newClinic.save()
+    .then(clinic => res.json(clinic))
+    .catch(err => res.status(400).send('Error:' + err));
+});
+
 
 // Route for serving images
 app.get('/api/image/:filename', async (req, res) => {
