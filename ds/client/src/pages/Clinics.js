@@ -104,20 +104,20 @@ function Clinics() {
 
 
       useEffect(() => {
-
         const fetchClinics = async () => {
-          try {
-            const response = await axios.get('/api/clinics');
-            console.log("Clinics ", response.data);
-            setClinics(response.data);
-          } catch (err) {
-            console.error("Error fetching clinics: ", err);
-          }
+            try {   
+              // Log the url being used for debugging
+              console.log("Fetching data from /api/clinics");
+    
+              const response = await axios.get('/api/clinics');
+              setClinics(response.data);
+            } catch (err) {
+              console.error("Error fetching clinics: ", err);
+            }
         }
         
         fetchClinics();
-        
-      }, []);
+    }, []);
     const handleBookingFormSubmit = (e) => {
         e.preventDefault();
         axios.post("/api/bookings", bookingForm)
