@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 function Dashboard() {
 
-  const [clinic, setClinic] = useState({ name: '', address: '', image: '', doctor: '', price: '' });
+  const [clinic, setClinic] = useState({ name: '', address: '', image: '', doctor: '', price: '', services: [] });
   const [bookings, setBookings] = useState([]);
 
 
@@ -29,6 +29,9 @@ function Dashboard() {
    formData.append('image', clinic.image);
    formData.append('doctor', clinic.doctor);
    formData.append('price', clinic.price);
+   clinic.services.forEach(service => {
+      formData.append('services', service);
+    });
 
    for (var pair of formData.entries()) {
        console.log(pair[0] + ', ' + pair[1]); 
