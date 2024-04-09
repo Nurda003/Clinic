@@ -194,7 +194,7 @@ function Clinics() {
                     <div className="w-heroimg h-heroimg">
                     {
                         (clinic.image &&
-                        <img src={`/api/image/${clinic.image.filename}}`} alt={clinic.name} />
+                        <img src={`/api/image/${clinic.image.filename}`} alt={clinic.name} />
                     )}
                     </div>
                 <div className="w-full p-3 bg-white">
