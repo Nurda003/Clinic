@@ -3,6 +3,21 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
  
 const Clinic = require('../models/clinicsModel')
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+
+// Create storage engine for images using GridFS
+const storage = new GridFsStorage({
+  url: process.env.MONGODB_URI,
+  file: (req, file) => {
+    return {
+      filename: `${Date.now()}${path.extname(file.originalname)}`
+    };
+  }
+});
+
+const upload = multer({ storage });
+
 const authCtrl = {
     getClinics : async (req, res) => {
         try {
@@ -16,24 +31,33 @@ const authCtrl = {
 
     createClinics : async (req, res) => {
         try {
-            const {name, address, medicalWorker} = req.body;
-    
+            const { name, address, doctor, price, image } = req.body;
+            const rating = Number((Math.random() * (5 - 3.5) + 3.5).toFixed(1));
+
+
             if (!name || !address || !medicalWorker) {  
                 return res.status(400).json({message: 'Bad request: name, medicalWorker, and address are required'});
             }
     
-            const image = req.file ? req.file.filename : null;
+            const newClinic = new Clinic({
+                name,
+                address,
+                doctor,
+                price,
+                rating,
+                image 
+            });
     
-            const newClinic = new Clinic({name, medicalWorker, address, image});
     
             const savedClinic = await newClinic.save();
-    
+
             res.json(savedClinic);
         } catch (error) {
-          console.error(error);
-          res.status(500).json({message: 'Server error. Please try again later.'});
+            console.error(error);
+            res.status(500).json({ message: 'Server error. Please try again later.' });
         }
-      },
+        
+    },
 
 
     registerMedicalWorker: async (req, res) => {
@@ -215,7 +239,8 @@ const authCtrl = {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
+    },
+    uploadClinicImage: upload.single('image'),
 }
 
 

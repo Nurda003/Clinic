@@ -41,27 +41,6 @@ app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the server' });
 });
 
-// Multer Middleware for file upload
-app.post('/api/clinics', upload.single('image'), (req, res) => {
-  const rating = Number((Math.random() * (5 - 3.5) + 3.5).toFixed(1))
-  let newClinic = new Clinic({
-      name: req.body.name, 
-      address: req.body.address,
-      doctor: req.body.doctor,    
-      price: req.body.price, 
-      rating,
-      image: { // store file data
-          id: req.file.id,
-          contentType: req.file.contentType,
-          filename: req.file.filename
-      }
-  });
-
-  newClinic.save()
-      .then(clinic => res.json(clinic))
-      .catch(err => res.status(400).json('Error:' + err));
-});
-
 // Route for serving images
 app.get('/api/image/:filename', async (req, res) => {
 
