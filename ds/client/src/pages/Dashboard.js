@@ -187,7 +187,7 @@ function Dashboard() {
                       </div>
                       <div className="w-full mb-5 group">
                       <label for="services">Services:</label>
-                        <select multiple id="services" name="services[]" onChange={handleSelectChange}>
+                        <select multiple id="services" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' name="services[]" onChange={handleSelectChange}>
                            <option value="Braces and Orthodontic Treatments">Braces and Orthodontic Treatments</option>
                            <option value="Dental Cleanings and Check-ups">Dental Cleanings and Check-ups</option>
                            <option value="Teeth Whitening Services">Teeth Whitening Services</option>
