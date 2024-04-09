@@ -160,7 +160,6 @@ function Clinics() {
                     <div className="flex items-center gap-10">
                         <div className="w-411">
                             
-                            <input type="search" id="search-dropdown" className="h-12 block p-2.5 w-full z-20 text-sm text-gray-900 bg-white border-2 border-gray-400 focus:ring-blue-500 focus:border-blue-500 rounded-lg" placeholder="Search..." required />
                             
                         </div>
                         <button id="dropdown-button" data-dropdown-toggle="dropdown" className="h-12 w-60 flex justify-between items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-white border-2 border-gray-400 rounded-lg" type="button">
@@ -170,10 +169,6 @@ function Clinics() {
                             </svg>
                         </button>
                         
-                        <div className="relative w-60 ">
-                            
-                            <input datepicker datepicker-title="Flowbite datepicker" type="text" className="h-12 bg-white border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" placeholder="Select date"/>
-                        </div>
                     </div>
                 </div>
                 
