@@ -37,6 +37,7 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage });
 
+
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the server' });
 });
@@ -168,3 +169,5 @@ mongoose.connect(URI, {
     console.error('Error connecting to MongoDB:', error);
     process.exit(1); // Exit the process if unable to connect to MongoDB
 });
+
+module.exports.upload = upload;
