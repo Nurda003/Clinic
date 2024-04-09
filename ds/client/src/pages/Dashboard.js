@@ -21,6 +21,35 @@ function Dashboard() {
     setClinic({...clinic, [e.target.name]: e.target.value });
   }
 
+  const handleFormSubmit = async (e) => {
+   e.preventDefault();
+   const formData = new FormData();
+   formData.append('name', clinic.name);
+   formData.append('address', clinic.address);
+   formData.append('image', clinic.image);
+   formData.append('doctor', clinic.doctor);
+   formData.append('price', clinic.price);
+
+   for (var pair of formData.entries()) {
+       console.log(pair[0] + ', ' + pair[1]); 
+   }
+
+   try {
+     const response = await axios.post('/api/clinics', formData, {
+       headers: {
+           'Content-Type': 'multipart/form-data'
+       }
+     });
+
+     if(response.data) {
+       setClinic({ name: '', address: '', image: '' , price: '', doctor: '' }); 
+     }
+   } catch (err) {
+     console.error(err);
+   }
+   
+ }
+
   useEffect(() => {
 
    const fetchBookings = async () => {
@@ -40,34 +69,7 @@ function Dashboard() {
  console.log("Bookings state: ", bookings);
  
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', clinic.name);
-    formData.append('address', clinic.address);
-    formData.append('image', clinic.image);
-    formData.append('doctor', clinic.doctor);
-    formData.append('price', clinic.price);
-
-    for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]); 
-    }
-
-    try {
-      const response = await axios.post('/api/clinics', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      if(response.data) {
-        setClinic({ name: '', address: '', image: '' , price: '', doctor: '' }); 
-      }
-    } catch (err) {
-      console.error(err);
-    }
-    
-  }
+ 
 
   const user = useSelector(state => state.auth.auth.user);
 
