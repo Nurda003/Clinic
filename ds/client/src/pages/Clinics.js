@@ -104,14 +104,16 @@ function Clinics() {
 
 
       useEffect(() => {
-        axios.get(`/api/clinics`)
-        .then((response) => {
+        // Fetch clinics data from the API
+        axios.get('https://dental-f-334e4107426f.herokuapp.com/api/clinics')
+          .then((response) => {
             setClinics(response.data);
-        }).catch((error) => {
-            console.error("Error fetching ", error);
-            alert("Failed to fetch clinics data");
-        });
-    }, []);
+          })
+          .catch((error) => {
+            console.error('Error fetching clinics:', error);
+            // Handle error, e.g., show an error message to the user
+          });
+      }, []);
 
     const handleBookingFormSubmit = (e) => {
         e.preventDefault();
@@ -190,7 +192,7 @@ function Clinics() {
         <div className="flex flex-col w-11/12 justify-center items-center">
 
 
-        { clinics.map(clinic => (
+        {clinics.map((clinic) => (
                 <div key={clinic._id} className="flex w-full gap-6 p-3 rounded-2xl bg-white items-center mt-10">
                     <div className="w-heroimg">
                     
