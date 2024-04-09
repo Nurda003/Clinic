@@ -35,7 +35,7 @@ function Dashboard() {
    }
 
    try {
-     const response = await axios.post('/api/clinics', formData, {
+     const response = await axios.post('/api/furufrufrur', formData, {
        headers: {
            'Content-Type': 'multipart/form-data'
        },

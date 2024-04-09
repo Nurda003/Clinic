@@ -104,7 +104,7 @@ function Clinics() {
 
 
       useEffect(() => {
-        axios.get(`/asdasdasd`)
+        axios.get(`/api/asdasdasd`)
         .then((response) => {
             setClinics(response.data);
         }).catch((error) => {
