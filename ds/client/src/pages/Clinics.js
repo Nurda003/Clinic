@@ -194,8 +194,6 @@ const handleSort = (event) => {
                             <option value="">Sort By</option>
                             <option value="priceLow">Price - Low to High</option>
                             <option value="priceHigh">Price - High to Low</option>
-                            <option value="serviceAtoZ">Service - A to Z</option>
-                            <option value="serviceZtoA">Service - Z to A</option>
                         </select>
                         </div>
                         <button id="dropdown-button" data-dropdown-toggle="dropdown" className="h-12 w-60 flex justify-between items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-white border-2 border-gray-400 rounded-lg" type="button">
