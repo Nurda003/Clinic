@@ -153,6 +153,12 @@ app.get('/api/bookings', async (req, res) => {
 const authRouter = require('./routes/authRouter');
 app.use('/api', authRouter);
 
+app.use(function(req, res, next) {
+  console.log(`${req.method} request for '${req.url}'`);
+  next();
+});
+
+
 app.get('*', (req, res) => {
   res.sendFile(
     path.resolve(__dirname, '../ds/client/build/index.html'),
