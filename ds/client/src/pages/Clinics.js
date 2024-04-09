@@ -108,7 +108,7 @@ function Clinics() {
               const url = process.env.REACT_APP_API_BASE_URL + '/api/clinics';
               console.log("Using URL for API call: ", url);
               console.log(process.env.REACT_APP_API_BASE_URL)
-              const response = await axios.get(url);
+              const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/clinics`);
               console.log("Clinics ", response.data);
               setClinics(response.data);
             } catch (err) {
