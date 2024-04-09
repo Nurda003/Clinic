@@ -118,7 +118,6 @@ function Clinics() {
 
     const handleBookingFormSubmit = (e) => {
         e.preventDefault();
-        console.log(bookingForm);
         axios.post("/api/bookings", bookingForm)
           .then((response) => {
             console.log(response);
