@@ -96,7 +96,6 @@ function Clinics() {
       };
 
       const [clinics, setClinics] = useState([]);
-      console.log("just clincs before get: " + clinics);
   
       function addClinic(newClinic) {
           setClinics([...clinics, newClinic]);
@@ -105,11 +104,7 @@ function Clinics() {
       useEffect(() => {
         const fetchClinics = async () => {
             try {
-              const url = process.env.REACT_APP_API_BASE_URL + '/api/clinics';
-              console.log("Using URL for API call: ", url);
-              console.log(process.env.REACT_APP_API_BASE_URL)
               const response = await axios.get(`/api/clinics`);
-              console.log("Clinics ", response.data);
               setClinics(response.data);
             } catch (err) {
               console.error("Error fetching clinics: ", err);
@@ -130,7 +125,6 @@ function Clinics() {
       };
 
    
-    console.log('Clinics after get: '+ clinics);
 
     const [bookingForm, setBookingForm] = useState({
         firstName: '',
